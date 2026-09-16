@@ -79,18 +79,19 @@ if ( ! function_exists( 'ai_comment_template' ) ) {
 
             <div class="comment-content-wrap">
 
-              <div class="comment-author">
-                <cite class="fn"><?php echo get_comment_author_link(); ?></cite>
-                <span class="says">说：</span>
-              </div>
-
-              <div class="comment-metadata">
-                <a href="<?php echo esc_url( get_comment_link( $comment ) ); ?>">
-                  <time datetime="<?php comment_time( 'c' ); ?>">
-                    <?php echo esc_html( get_comment_date() . ' ' . get_comment_time() ); ?>
-                  </time>
-                </a>
-                <?php edit_comment_link( '编辑', '<span class="edit-link">', '</span>' ); ?>
+              <div class="comment-head">
+                <span class="comment-author">
+                  <cite class="fn"><?php echo get_comment_author_link(); ?></cite>
+                  <span class="says">说：</span>
+                </span>
+                <span class="comment-metadata">
+                  <a href="<?php echo esc_url( get_comment_link( $comment ) ); ?>">
+                    <time datetime="<?php comment_time( 'c' ); ?>">
+                      <?php echo esc_html( get_comment_date() . ' ' . get_comment_time() ); ?>
+                    </time>
+                  </a>
+                  <?php edit_comment_link( '编辑', '<span class="edit-link">', '</span>' ); ?>
+                </span>
               </div>
 
               <div class="comment-content">

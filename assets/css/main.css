@@ -1596,8 +1596,13 @@ main > .section:first-child,
 }
 
 /* ═══════════════════════════════════════════════
-   COMMENTS · Ant Design Comment 规范
-   结构：.comment-body > .comment-avatar + .comment-content-wrap
+   COMMENTS · 按 Ant Design 体系重设计
+   引用设计原则：自然 / 确定性 / 意义性 / 生长性
+   · 8px 网格间距（只消费 space-*） · 中性色四级文本
+   · Component 对照：Comment / List / Form / Button(text)
+   · 嵌套回复纯缩进，无装饰线；层级 ≥3 弱化减重
+   结构：.comment-body > avatar + .comment-content-wrap
+         └ .comment-head（昵称 · 时间）/ 正文 / actions
    ═══════════════════════════════════════════════ */
 .comments-area {
   margin: var(--space-24) 0 0;
@@ -1620,97 +1625,49 @@ main > .section:first-child,
 .comments-cmd    { color: var(--code-blue); font-weight: 600; }
 .comments-count  { color: var(--tx-4); }
 
-/* ── 列表 ── */
+/* ── 列表 ──
+   Ant Design List：行 hover 微底，无分隔线堆叠，
+   层级靠空间与留白；顶层评论间距 8px，线程内 4px */
 .comment-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 .comment-list > li {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-2);
+}
+.comment-list li.comment-item + li.comment-item {
+  margin-top: var(--space-1);
 }
 
-/* ── 嵌套回复 · 分级制树形导轨 ──
-   深层级“混乱”的根治：轨迹分级，权重逐级递减
-   ① 绿色分支节点只出现在线程根（顶层评论的回复起点），
-      之后各层不再重复圆点；
-   ② 线程根用 3px 加粗导轨锚定“这整串都属于顶层评论”，
-      二级导轨 2px 灰线、三级及以上收细为 1px 弱线；
-   ③ 缩进封顶：24 → 16 → 12px，五层后不再向右漂移，
-      与顶层评论的视觉距离被拉回，间距也随深逐级收紧
-      （顶层评论→线程 20 → 线程内 12 → 深层 8px）；
-   ④ 三级以上的正文微微减重（tx-3），层级靠“弱化”识别。
-   ⑤ 整条评论行 hover 高亮，深线程中可逐条追踪归属。 */
+/* ── 嵌套回复 · 纯缩进（Ant Design Comment 子列表）
+   无导轨装饰线；缩进 32 → 24 → 16px 封顶，
+   层级 ≥3 弱化文字，五层仍保持紧凑不漂移 */
 .comment-list .children {
   list-style: none;
   padding: 0;
-  margin: var(--space-4) 0 0 0;
-  padding-left: var(--space-6);
-  position: relative;
-}
-.comment-list > li > .children {
-  margin-top: var(--space-5);
-  border-left: 3px solid var(--ln-strong);
-}
-.comment-list > li > .children::before {
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: -5px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 2px var(--surface);
+  margin: var(--space-2) 0 0 0;
+  padding-left: var(--space-8);
 }
 .comment-list .children .children {
-  margin-top: var(--space-3);
-  padding-left: var(--space-4);
-  border-left: 2px solid var(--ln);
+  margin-top: var(--space-1);
+  padding-left: var(--space-6);
 }
 .comment-list .children .children .children {
-  margin-top: var(--space-2);
-  padding-left: var(--space-3);
-  border-left: 1px solid var(--ln);
+  margin-top: var(--space-1);
+  padding-left: var(--space-4);
 }
 .comment-list .children .children .children .comment-content {
   color: var(--tx-3);
 }
 
-/* 支线 · 从所在级导轨横接该条评论，长度随各级缩进 */
-.comment-list .children > li.comment-item { position: relative; }
-.comment-list > li > .children > li.comment-item::before,
-.comment-list .children .children > li.comment-item::before,
-.comment-list .children .children .children > li.comment-item::before,
-.comment-list .children .children .children .children > li.comment-item::before {
-  content: "";
-  position: absolute;
-  top: calc(var(--space-4) + var(--comment-avatar-size) / 2 - 1px);
-  height: 2px;
-  background: var(--ln);
-}
-.comment-list > li > .children > li.comment-item::before {
-  left: calc(var(--space-6) * -1);
-  width: var(--space-6);
-}
-.comment-list .children .children > li.comment-item::before {
-  left: calc(var(--space-4) * -1);
-  width: var(--space-4);
-}
-.comment-list .children .children .children > li.comment-item::before,
-.comment-list .children .children .children .children > li.comment-item::before {
-  left: calc(var(--space-3) * -1);
-  width: var(--space-3);
-  height: 1px;
-}
-
-/* ── 单条评论 · Ant Design Comment 结构 ── */
+/* ── 单条评论 · Ant Design Comment 结构
+   头像 + content-wrap（head 行 · 正文 · actions） */
 .comment-body {
   display: flex;
   align-items: flex-start;
   gap: var(--comment-avatar-gap);
   padding: var(--comment-padding);
-  border-bottom: var(--comment-border);
   border-radius: var(--seed-radius-sm);
   transition: background var(--duration-normal) var(--ease-natural);
 }
@@ -1733,12 +1690,16 @@ main > .section:first-child,
   min-width: 0;
 }
 
-/* 作者名 + 时间 · 分两行（避免长日期在窄屏与昵称争空间 */
-.comment-author {
+/* 头部行 · 昵称 + 时间 inline（Ant Comment header）
+   窄屏自动换行，时间用 · 分隔 */
+.comment-head {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px 10px;
+}
+.comment-author {
+  display: inline;
 }
 .comment-author .fn {
   font-style: normal;
@@ -1750,12 +1711,15 @@ main > .section:first-child,
 .comment-author .says { display: none; }
 
 .comment-metadata {
-  display: block;
   font-family: var(--mono);
   font-size: 11px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--tx-4);
-  margin-top: 2px;
+}
+.comment-metadata::before {
+  content: "·";
+  color: var(--tx-4);
+  margin-right: 6px;
 }
 .comment-metadata a {
   color: inherit;
@@ -1764,7 +1728,7 @@ main > .section:first-child,
 .comment-metadata a:hover { color: var(--green); }
 .comment-metadata .edit-link { margin-left: var(--space-2); }
 
-/* 内容 */
+/* 正文 */
 .comment-content {
   font-size: var(--comment-content-size);
   line-height: 1.7;
@@ -1774,11 +1738,12 @@ main > .section:first-child,
 .comment-content p { margin: 0 0 var(--space-2); }
 .comment-content p:last-child { margin-bottom: 0; }
 
-/* Actions 栏 · 对齐 Ant Design Comment actions */
+/* Actions · Ant Design Comment actions
+   回复为 text 按钮：正文颜色，hover 品牌绿 + 浅底 */
 .comment-actions {
   display: flex;
   gap: var(--space-2);
-  margin-top: var(--space-3);
+  margin-top: var(--space-2);
   font-size: var(--comment-actions-size);
 }
 .comment-actions a,
@@ -1790,31 +1755,20 @@ main > .section:first-child,
   font-size: var(--comment-actions-size);
   color: var(--tx-4);
   cursor: pointer;
-  transition: color var(--duration-normal) var(--ease-natural);
+  padding: 2px 6px;
+  margin-left: -6px;
+  border-radius: var(--seed-radius-sm);
+  transition: color var(--duration-normal) var(--ease-natural),
+              background var(--duration-normal) var(--ease-natural);
 }
 .comment-actions a:hover,
-.comment-actions button:hover { color: var(--green); }
-
-/* 回复链接 · Ant Design Button（轻量） */
-.comment-actions .comment-reply-link {
-  height: 26px;
-  padding: 0 10px;
-  border: 1px solid var(--ln);
-  border-radius: var(--seed-radius-sm);
-  color: var(--tx-3);
-  transition: all var(--duration-normal) var(--ease-natural);
-}
-.comment-actions .comment-reply-link:hover {
+.comment-actions button:hover {
   color: var(--green);
-  border-color: var(--green);
   background: var(--map-green-bg-soft);
 }
 
-/* 回复链接 · 归入 actions 栏 */
-.reply {
-  display: inline;
-  margin-top: 0;
-}
+/* 回复链接 · Ant Button（text）兜底 */
+.reply { margin-top: 0; }
 .reply a {
   font-family: var(--mono);
   font-size: var(--comment-actions-size);
@@ -1998,26 +1952,14 @@ main > .section:first-child,
     --comment-avatar-size: 28px;
     --comment-avatar-gap: 10px;
   }
-  .comment-body { padding: var(--space-3) 0; }
-  .comment-list > li { margin-bottom: var(--space-4); }
+  .comment-body { padding: var(--space-3); }
+  .comment-list > li { margin-bottom: var(--space-2); }
+  .comment-list li.comment-item + li.comment-item { margin-top: var(--space-1); }
   .comment-content { font-size: 14px; line-height: 1.7; }
 
-  /* 嵌套回复 · 移动端缩进封顶 12/8px，导轨支线同步收紧 */
-  .comment-list .children { padding-left: var(--space-3); }
-  .comment-list .children .children { padding-left: var(--space-2); }
-  .comment-list .children > li.comment-item::before {
-    top: calc(var(--space-3) + var(--comment-avatar-size) / 2 - 1px);
-  }
-  .comment-list > li > .children > li.comment-item::before {
-    left: calc(var(--space-3) * -1);
-    width: var(--space-3);
-  }
-  .comment-list .children .children > li.comment-item::before,
-  .comment-list .children .children .children > li.comment-item::before,
-  .comment-list .children .children .children .children > li.comment-item::before {
-    left: calc(var(--space-2) * -1);
-    width: var(--space-2);
-  }
+  /* 嵌套回复 · 移动端缩一级即可，视觉更松 */
+  .comment-list .children { padding-left: var(--space-4); }
+  .comment-list .children .children { padding-left: var(--space-3); }
 
   .comment-form { grid-template-columns: 1fr; gap: var(--space-3); }
   .comment-form-author,

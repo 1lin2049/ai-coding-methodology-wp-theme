@@ -39,66 +39,22 @@
   margin: 0;
 }
 .r-single-chapter .comment-list > li {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
-/* ── 嵌套回复 · 分级制树形导轨（与主站一致）
-   线程根 3px 加粗导轨 + 唯一绿点；二级 2px 灰线；
-   三级及以上 1px 弱线；缩进 24→16→12px 封顶 */
+/* ── 嵌套回复 · 纯缩进（Ant Design Comment 子列表）── */
 .r-single-chapter .comment-list .children {
   list-style: none;
   padding: 0;
-  margin: 16px 0 0 0;
-  padding-left: 24px;
-  position: relative;
-}
-.r-single-chapter .comment-list > li > .children {
-  margin-top: 20px;
-  border-left: 3px solid var(--ln-strong);
-}
-.r-single-chapter .comment-list > li > .children::before {
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: -5px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 2px var(--surface);
+  margin: 12px 0 0 0;
+  padding-left: 32px;
 }
 .r-single-chapter .comment-list .children .children {
-  margin-top: 12px;
-  padding-left: 16px;
-  border-left: 2px solid var(--ln);
+  margin-top: 8px;
+  padding-left: 24px;
 }
 .r-single-chapter .comment-list .children .children .children {
   margin-top: 8px;
-  padding-left: 12px;
-  border-left: 1px solid var(--ln);
-}
-
-/* 支线 · 从所在级导轨横接该条评论 */
-.r-single-chapter .comment-list .children > li.comment-item { position: relative; }
-.r-single-chapter .comment-list > li > .children > li.comment-item::before,
-.r-single-chapter .comment-list .children .children > li.comment-item::before,
-.r-single-chapter .comment-list .children .children .children > li.comment-item::before,
-.r-single-chapter .comment-list .children .children .children .children > li.comment-item::before {
-  content: "";
-  position: absolute;
-  top: 36px;
-  height: 2px;
-  background: var(--ln);
-}
-.r-single-chapter .comment-list > li > .children > li.comment-item::before,
-.r-single-chapter .comment-list .children .children > li.comment-item::before {
-  left: -24px;
-  width: 24px;
-}
-.r-single-chapter .comment-list .children .children .children > li.comment-item::before,
-.r-single-chapter .comment-list .children .children .children .children > li.comment-item::before {
-  left: -12px;
-  width: 12px;
-  height: 1px;
+  padding-left: 16px;
 }
 
 /* ── 单条评论 ── */
@@ -123,9 +79,16 @@
   display: block;
 }
 
+.r-single-chapter .comment-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-bottom: 8px;
+}
 .r-single-chapter .comment-author {
-  display: block;
-  margin-bottom: 4px;
+  display: inline;
+  margin-bottom: 0;
 }
 .r-single-chapter .comment-author .fn {
   font-style: normal;
@@ -139,7 +102,12 @@
   font-family: var(--mono);
   font-size: 11px;
   color: var(--tx-4);
-  margin-bottom: 12px;
+  margin-bottom: 0;
+}
+.r-single-chapter .comment-metadata::before {
+  content: "·";
+  color: var(--tx-4);
+  margin-right: 6px;
 }
 .r-single-chapter .comment-metadata a {
   color: inherit;
@@ -163,17 +131,27 @@
   margin-bottom: 0;
 }
 
-.r-single-chapter .reply {
+.r-single-chapter .comment-actions {
   margin-top: 8px;
 }
-.r-single-chapter .reply a {
+.r-single-chapter .comment-actions a,
+.r-single-chapter .comment-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-family: var(--mono);
   font-size: 11.5px;
   color: var(--tx-4);
-  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 2px 6px;
+  margin-left: -6px;
+  border-radius: var(--seed-radius-sm);
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.r-single-chapter .reply a:hover {
+.r-single-chapter .comment-actions a:hover,
+.r-single-chapter .comment-actions button:hover {
   color: var(--green);
+  background: color-mix(in srgb, var(--green) 6%, transparent);
 }
 
 /* ── 表单标题 ── */
@@ -378,24 +356,12 @@
     position: static;
     margin-bottom: 12px;
   }
-  /* 嵌套回复 · 移动端缩进封顶 12/8px，导轨支线同步收紧 */
+  /* 嵌套回复 · 移动端缩一级即可 */
   .r-single-chapter .comment-list .children {
-    padding-left: 12px;
+    padding-left: 16px;
   }
   .r-single-chapter .comment-list .children .children {
-    padding-left: 8px;
-  }
-  .r-single-chapter .comment-list > li > .children > li.comment-item::before,
-  .r-single-chapter .comment-list .children .children > li.comment-item::before {
-    left: -12px;
-    width: 12px;
-    top: 20px;
-  }
-  .r-single-chapter .comment-list .children .children .children > li.comment-item::before,
-  .r-single-chapter .comment-list .children .children .children .children > li.comment-item::before {
-    left: -8px;
-    width: 8px;
-    top: 20px;
+    padding-left: 12px;
   }
   /* iOS 聚焦字号 ≥16px，防止自动缩放 */
   .r-single-chapter .comment-form input[type="text"],

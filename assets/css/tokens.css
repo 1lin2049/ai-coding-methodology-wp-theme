@@ -208,11 +208,10 @@
   /* ── Comment ── */
   --comment-avatar-size:      32px;
   --comment-avatar-gap:       12px;
-  --comment-meta-size:        12px;
+  --comment-meta-size:        13.5px;
   --comment-content-size:     14px;
   --comment-actions-size:     12px;
-  --comment-padding:          var(--space-4) 0;
-  --comment-border:           1px solid var(--ln);
+  --comment-padding:          var(--space-3) var(--space-4);
 
   /* ── Widget / Card ── */
   --widget-bg:                var(--bg-elev);
