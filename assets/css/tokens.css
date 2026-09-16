@@ -1,0 +1,283 @@
+/* ═══════════════════════════════════════════════
+   BREAKPOINT CONTRACT · 全站断点契约
+
+   所有 CSS 文件必须且只能使用以下四个断点：
+
+     1024px   平板横屏 · 侧栏收起 / content-pad 收窄
+      900px   平板竖屏 · 网格降为单列
+      640px   手机    · 布局简化 / 字号缩减
+      375px   小手机  · 极限压缩
+
+   禁止出现 600 / 768 / 1200 / 1280 等其它断点。
+   如需新增，先在本文档注册，再在 CSS 中使用。
+
+   Reader 子系统曾使用 600px，已并入 640px。
+   =============================================== */
+
+
+/* ═══════════════════════════════════════════════
+   TOKENS · 三层 Token 体系（Seed → Map → Alias）
+
+   命名规则：
+     --seed-*     唯一真理源，来自 theme.json
+     --map-*      派生计算，不引入新值
+     --[alias]    语义别名，业务代码消费
+     --[comp]-*   组件专用，只消费 Map/Alias
+
+   约束：
+     1. 只有 Seed 层允许硬编码
+     2. Map 层只做派生：color-mix / calc
+     3. 业务 CSS 只消费 Alias 和 Component
+     4. 组件样式不写全局规则，只覆盖局部变量
+   ═══════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════
+   PART 1 · SEED TOKENS
+   ═══════════════════════════════════════════════ */
+:root {
+  /* ── 1.1 色彩 · 消费 theme.json preset ── */
+  --seed-color-bg:            var(--wp--preset--color--bg);
+  --seed-color-bg-elev:       var(--wp--preset--color--bg-elev);
+
+  --seed-color-green-1:       var(--wp--preset--color--green-1);
+  --seed-color-green-2:       var(--wp--preset--color--green-2);
+  --seed-color-green-3:       var(--wp--preset--color--green-3);
+  --seed-color-green-4:       var(--wp--preset--color--green-4);
+  --seed-color-green-5:       var(--wp--preset--color--green-5);
+  --seed-color-green-6:       var(--wp--preset--color--green-6);
+  --seed-color-green-7:       var(--wp--preset--color--green-7);
+  --seed-color-green-8:       var(--wp--preset--color--green-8);
+  --seed-color-green-9:       var(--wp--preset--color--green-9);
+  --seed-color-green-10:      var(--wp--preset--color--green-10);
+
+  --seed-color-tx-1:          var(--wp--preset--color--tx-1);
+  --seed-color-tx-2:          var(--wp--preset--color--tx-2);
+  --seed-color-tx-3:          var(--wp--preset--color--tx-3);
+  --seed-color-tx-4:          var(--wp--preset--color--tx-4);
+
+  --seed-color-line:          var(--wp--preset--color--line);
+  --seed-color-line-strong:   var(--wp--preset--color--line-strong);
+
+  --seed-color-diff-p:        var(--wp--preset--color--diff-p);
+  --seed-color-diff-m:        var(--wp--preset--color--diff-m);
+  --seed-color-code-orange:   var(--wp--preset--color--code-orange);
+  --seed-color-code-blue:     var(--wp--preset--color--code-blue);
+  --seed-color-code-purple:   var(--wp--preset--color--code-purple);
+
+  /* ── 1.2 尺寸 ── */
+  --seed-unit:      4px;
+  --seed-radius-sm: 4px;
+  --seed-radius:    6px;
+  --seed-radius-lg: 8px;
+
+  /* ── 1.3 动效 · 时长 ── */
+  --seed-duration-fast:   150ms;
+  --seed-duration-normal: 200ms;
+  --seed-duration-slow:   300ms;
+  --seed-duration-enter:  400ms;
+
+  /* ── 1.4 动效 · 缓动曲线 ── */
+  --seed-ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --seed-ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --seed-ease-natural: cubic-bezier(0.4, 0, 0.2, 1);
+  --seed-ease-spring:  cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ═══════════════════════════════════════════════
+   PART 2 · MAP TOKENS
+   ═══════════════════════════════════════════════ */
+:root {
+  /* ── 2.1 品牌色衍生状态 ── */
+  --map-green-hover:       color-mix(in srgb, var(--seed-color-green-6) 85%, #fff);
+  --map-green-active:      color-mix(in srgb, var(--seed-color-green-6) 70%, #000);
+  --map-green-bg-soft:     color-mix(in srgb, var(--seed-color-green-6)  6%, transparent);
+  --map-green-bg-mid:      color-mix(in srgb, var(--seed-color-green-6) 12%, transparent);
+  --map-green-border-soft: color-mix(in srgb, var(--seed-color-green-6) 20%, transparent);
+  --map-green-border:      color-mix(in srgb, var(--seed-color-green-6) 40%, transparent);
+  --map-green-shadow-sm:   color-mix(in srgb, var(--seed-color-green-6) 15%, transparent);
+  --map-green-shadow-md:   color-mix(in srgb, var(--seed-color-green-6) 40%, transparent);
+  --map-green-shadow-lg:   color-mix(in srgb, var(--seed-color-green-6) 60%, transparent);
+  --map-glow:              color-mix(in srgb, var(--seed-color-green-6)  7%, transparent);
+
+  /* ── 2.2 间距梯度 · 4px 网格 ── */
+  --space-1:  calc(var(--seed-unit) * 1);
+  --space-2:  calc(var(--seed-unit) * 2);
+  --space-3:  calc(var(--seed-unit) * 3);
+  --space-4:  calc(var(--seed-unit) * 4);
+  --space-6:  calc(var(--seed-unit) * 6);
+  --space-8:  calc(var(--seed-unit) * 8);
+  --space-12: calc(var(--seed-unit) * 12);
+  --space-16: calc(var(--seed-unit) * 16);
+  --space-24: calc(var(--seed-unit) * 24);
+  --space-32: calc(var(--seed-unit) * 32);
+
+  /* ── 2.3 动效梯度 ── */
+  --duration-fast:   var(--seed-duration-fast);
+  --duration-normal: var(--seed-duration-normal);
+  --duration-slow:   var(--seed-duration-slow);
+  --duration-enter:  var(--seed-duration-enter);
+
+  --ease-in:      var(--seed-ease-in);
+  --ease-out:     var(--seed-ease-out);
+  --ease-natural: var(--seed-ease-natural);
+  --ease-spring:  var(--seed-ease-spring);
+}
+
+
+/* ═══════════════════════════════════════════════
+   PART 3 · ALIAS TOKENS
+   ═══════════════════════════════════════════════ */
+:root {
+  --bg:            var(--seed-color-bg);
+  --bg-elev:       var(--seed-color-bg-elev);
+  --surface:       rgba(255, 255, 255, .02);
+  --surface-hover: rgba(255, 255, 255, .04);
+
+  --tx-1: var(--seed-color-tx-1);
+  --tx-2: var(--seed-color-tx-2);
+  --tx-3: var(--seed-color-tx-3);
+  --tx-4: var(--seed-color-tx-4);
+
+  --ln:        var(--seed-color-line);
+  --ln-strong: var(--seed-color-line-strong);
+
+  --green:     var(--seed-color-green-6);
+  --green-dim: var(--seed-color-green-7);
+
+  --diff-p:      var(--seed-color-diff-p);
+  --diff-m:      var(--seed-color-diff-m);
+  --diff-p-bg:   color-mix(in srgb, var(--seed-color-diff-p) 8%, transparent);
+  --diff-m-bg:   color-mix(in srgb, var(--seed-color-diff-m) 8%, transparent);
+  --code-orange: var(--seed-color-code-orange);
+  --code-blue:   var(--seed-color-code-blue);
+  --code-purple: var(--seed-color-code-purple);
+
+  /* 字体别名 */
+  --sans: var(--wp--preset--font-family--sans);
+  --mono: var(--wp--preset--font-family--mono);
+
+  --content-max: 1200px;
+  --content-pad: 48px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   PART 4 · COMPONENT TOKENS
+   ═══════════════════════════════════════════════ */
+:root {
+  /* ── Button ── */
+  --btn-h:             44px;
+  --btn-px:            22px;
+  --btn-gap:           var(--space-2);
+  --btn-font:          13.5px;
+  --btn-weight:        600;
+  --btn-radius:        var(--seed-radius);
+  --btn-bg:            var(--green);
+  --btn-color:         #000;
+  --btn-border:        transparent;
+  --btn-shadow:        none;
+  --btn-shadow-hover:  var(--map-green-shadow-md);
+
+  --btn-ghost-bg:           transparent;
+  --btn-ghost-color:        var(--tx-1);
+  --btn-ghost-border:       var(--ln-strong);
+  --btn-ghost-color-hover:  var(--green);
+  --btn-ghost-border-hover: var(--green);
+
+  /* ── Card ── */
+  --card-bg:            var(--bg);
+  --card-border:        var(--ln-strong);
+  --card-border-hover:  var(--tx-3);
+  --card-radius:        var(--seed-radius-lg);
+  --card-pad-y:         var(--space-8);
+  --card-pad-x:         var(--space-6);
+  --card-shadow:        none;
+  --card-shadow-hover:  none;
+
+  --card-rec-border:    var(--green);
+  --card-rec-shadow:    var(--map-green-shadow-sm);
+
+  /* ── Nav ── */
+  --nav-h:                56px;
+  --nav-bg:               color-mix(in srgb, var(--bg) 78%, transparent);
+  --nav-bg-scrolled:      color-mix(in srgb, var(--bg) 94%, transparent);
+  --nav-border-scrolled:  var(--ln);
+
+  /* ── Comment ── */
+  --comment-avatar-size:      32px;
+  --comment-avatar-gap:       12px;
+  --comment-meta-size:        12px;
+  --comment-content-size:     14px;
+  --comment-actions-size:     12px;
+  --comment-padding:          var(--space-4) 0;
+  --comment-border:           1px solid var(--ln);
+
+  /* ── Widget / Card ── */
+  --widget-bg:                var(--bg-elev);
+  --widget-border:            var(--ln-strong);
+  --widget-radius:            var(--seed-radius-lg);
+  --widget-padding:           var(--space-6);
+  --widget-header-padding:    var(--space-4) var(--space-6);
+  --widget-shadow:            0 1px 2px rgba(0, 0, 0, .3), 0 1px 6px -1px rgba(0, 0, 0, .02);
+  --widget-shadow-hover:      0 4px 12px rgba(0, 0, 0, .15);
+
+  /* Table Tokens · 对齐 Ant Design Table 组件 */
+  --table-border-color:        var(--ln);
+  --table-border-strong:       var(--ln-strong);
+  --table-header-border:       1px solid var(--ln-strong);
+  --table-cell-border:         1px solid var(--ln);
+  --table-radius:              var(--seed-radius);
+  --table-header-bg:           var(--surface);
+  --table-header-color:        var(--tx-3);
+  --table-cell-padding-y:      var(--space-4);
+  --table-cell-padding-x:      var(--space-5);
+  --table-row-hover-bg:        var(--surface-hover);
+  --table-first-col-color:     var(--tx-1);
+}
+
+
+/* ═══════════════════════════════════════════════
+   PART 5 · 浅色模式覆盖（只覆盖 Seed）
+   ═══════════════════════════════════════════════ */
+[data-theme="light"] {
+  --seed-color-bg:          #fafafa;
+  --seed-color-bg-elev:     #f4f4f5;
+  --seed-color-green-6:     #00915c;
+  --seed-color-green-7:     #007a4d;
+  --seed-color-tx-1:        #0a0a0c;
+  --seed-color-tx-2:        rgba(10, 10, 12, .62);
+  --seed-color-tx-3:        rgba(10, 10, 12, .42);
+  --seed-color-tx-4:        rgba(10, 10, 12, .30);
+  --seed-color-line:        rgba(0, 0, 0, .08);
+  --seed-color-line-strong: rgba(0, 0, 0, .14);
+  --seed-color-diff-p:      #1a7f37;
+  --seed-color-diff-m:      #cf222e;
+  --seed-color-code-orange: #953800;
+  --seed-color-code-blue:   #0969da;
+  --seed-color-code-purple: #8250df;
+
+  --surface:       rgba(0, 0, 0, .02);
+  --surface-hover: rgba(0, 0, 0, .035);
+
+  --widget-shadow:       0 1px 2px rgba(0, 0, 0, .06), 0 1px 6px -1px rgba(0, 0, 0, .02);
+  --widget-shadow-hover: 0 4px 12px rgba(0, 0, 0, .1);
+}
+
+
+/* ═══════════════════════════════════════════════
+   PART 6 · 响应式 content-pad
+   断点遵循顶部 Breakpoint Contract
+   ═══════════════════════════════════════════════ */
+@media (max-width: 1024px) { :root { --content-pad: 32px; } }
+@media (max-width: 640px)  { :root { --content-pad: 20px; } }
+
+
+/* ═══════════════════════════════════════════════
+   PART 7 · 兜底 · 任何情况下都不显示 admin bar
+   ═══════════════════════════════════════════════ */
+#wpadminbar { display: none !important; }
+html { margin-top: 0 !important; }
+body.admin-bar .nav { top: 0 !important; }
+body.admin-bar .side-nav { top: 50% !important; }

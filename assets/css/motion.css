@@ -1,0 +1,149 @@
+/* ═══════════════════════════════════════════════
+   MOTION · Ant Motion 原则重构
+
+   三原则：
+     Natural    —— 缓动曲线基于自然规律，统一使用 seed 变量
+     Performant —— 只动画 transform / opacity，时长不超过 400ms
+     Concise    —— 每个动效必须有明确意图，不堆砌
+
+   时长规范：
+     150ms  hover / focus 反馈
+     200ms  默认交互
+     300ms  面板、区域展开
+     400ms  仅入场动效
+   ═══════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .mouse-glow        { display: none !important; }
+  .cursor-line       { display: none !important; }
+  .hero-term .line   { opacity: 1 !important; transform: none !important; }
+  .pkg-card.pkg-rec  { transform: none !important; }
+}
+
+
+/* ── 1. 终端逐行显现 ── */
+.hero-term .line {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity   var(--duration-enter) var(--ease-spring),
+    transform var(--duration-enter) var(--ease-spring);
+}
+.hero-term.revealed .line {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ── 2. 终端等待光标 ── */
+.cursor-line {
+  display: inline-block;
+  width: 8px;
+  height: 12px;
+  background: var(--green);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  box-shadow: 0 0 8px var(--green);
+  animation: blink 1s steps(1) infinite;
+}
+
+
+/* ── 3. 鼠标跟随光晕 ── */
+.mouse-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    circle,
+    var(--map-glow) 0%,
+    transparent 55%
+  );
+  filter: blur(60px);
+  will-change: transform;
+  opacity: 0;
+  mix-blend-mode: screen;
+  animation: glowIn var(--duration-enter) var(--ease-out) .8s forwards;
+}
+@keyframes glowIn {
+  to { opacity: 1; }
+}
+@media (max-width: 1080px) {
+  .mouse-glow { display: none; }
+}
+
+
+/* ── 4. 数字到位闪光 ── */
+@keyframes numFlash {
+  0%   { color: var(--green); }
+  40%  { color: #fff;
+         text-shadow: 0 0 32px var(--green), 0 0 64px var(--green); }
+  100% { color: var(--green); }
+}
+.ev-num.flash,
+.gs-num.flash {
+  animation: numFlash 700ms var(--ease-spring);
+}
+
+
+/* ── 5. section-tag 命令脉冲 ── */
+@keyframes promptPulse {
+  0%   { color: var(--green); }
+  40%  { color: #fff;
+         text-shadow: 0 0 20px var(--green), 0 0 40px var(--green); }
+  100% { color: var(--green); }
+}
+.section-tag .prompt.pulse-once {
+  animation: promptPulse 800ms var(--ease-spring);
+}
+
+
+/* ── 6. FAQ 展开过渡 ── */
+.faq-a {
+  animation: faqIn var(--duration-slow) var(--ease-out);
+}
+@keyframes faqIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.faq .faq-id,
+.faq .faq-icon,
+.faq .faq-meta {
+  transition: all var(--duration-slow) var(--ease-natural);
+}
+
+
+/* ── 7. Pricing 推荐卡片微放大 ── */
+.pkg-card.pkg-rec {
+  transform: scale(1.02);
+  transform-origin: center;
+  z-index: 2;
+  transition:
+    transform     var(--duration-slow) var(--ease-spring),
+    border-color  var(--duration-slow) var(--ease-natural),
+    box-shadow    var(--duration-slow) var(--ease-natural);
+}
+.pkg-card.pkg-rec:hover {
+  transform: scale(1.04) translateY(-2px);
+}
+@media (max-width: 900px) {
+  .pkg-card.pkg-rec        { transform: none; }
+  .pkg-card.pkg-rec:hover  { transform: translateY(-2px); }
+}
+
+
+/* ── 8. Hero 终端 hover 激活 ── */
+.hero-term {
+  transition:
+    border-color  var(--duration-slow)  var(--ease-natural),
+    box-shadow    var(--duration-enter) var(--ease-spring);
+}
+.hero-term:hover {
+  border-color: var(--map-green-border);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, .4),
+    0 0 64px var(--map-glow);
+}

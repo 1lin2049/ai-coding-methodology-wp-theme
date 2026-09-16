@@ -1,0 +1,91 @@
+/* ═══════════════════════════════════════════════
+   A11Y · 无障碍
+   ═══════════════════════════════════════════════ */
+
+/* ── Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -1000px;
+  left: 0;
+  z-index: 9999;
+  padding: 12px 20px;
+  background: var(--green);
+  color: #000;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 0 0 var(--seed-radius) 0;
+  text-decoration: none;
+  transition: top .2s var(--ease-natural);
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid #000;
+  outline-offset: -4px;
+}
+
+/* ── 键盘焦点可见 ── */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* 移除默认 outline（非可见焦点情况下） */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── 高对比度模式 ── */
+@media (prefers-contrast: more) {
+  :root {
+    --tx-2: rgba(255, 255, 255, .82);
+    --tx-3: rgba(255, 255, 255, .65);
+    --ln: rgba(255, 255, 255, .18);
+    --ln-strong: rgba(255, 255, 255, .3);
+  }
+  [data-theme="light"] {
+    --tx-2: rgba(0, 0, 0, .78);
+    --tx-3: rgba(0, 0, 0, .55);
+    --ln: rgba(0, 0, 0, .18);
+    --ln-strong: rgba(0, 0, 0, .3);
+  }
+}
+
+/* ── 减少动效 ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── 屏幕阅读器 ── */
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.screen-reader-text:focus {
+  position: static !important;
+  width: auto;
+  height: auto;
+  padding: 12px 16px;
+  clip: auto;
+  white-space: normal;
+}

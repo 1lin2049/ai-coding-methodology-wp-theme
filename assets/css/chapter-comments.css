@@ -1,0 +1,327 @@
+/* ═══════════════════════════════════════════════
+   CHAPTER COMMENTS · 章节评论区
+   作用范围：.r-single-chapter 内的 .r-comments
+   ═══════════════════════════════════════════════ */
+
+/* ── 容器 ── */
+.r-single-chapter .r-comments {
+  margin-top: 64px;
+  padding-top: 40px;
+  padding-bottom: 80px;   /* 为 fixed 底栏让位 */
+  border-top: 1px dashed var(--ln);
+}
+
+.r-single-chapter .r-comments .comments-area {
+  margin: 0;
+  padding: 0;
+  border: none;
+  max-width: none;
+}
+
+/* ── 头部 ── */
+.r-single-chapter .comments-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--tx-2);
+  margin-bottom: 32px;
+}
+.r-single-chapter .comments-prompt { color: var(--green); font-weight: 700; }
+.r-single-chapter .comments-cmd    { color: var(--code-blue); font-weight: 600; }
+.r-single-chapter .comments-count  { color: var(--tx-4); }
+
+/* ── 列表 ── */
+.r-single-chapter .comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.r-single-chapter .comment-list > li {
+  margin-bottom: 24px;
+}
+.r-single-chapter .comment-list .children {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0 32px;
+}
+
+/* ── 单条评论 ── */
+.r-single-chapter .comment-body {
+  position: relative;
+  padding: 20px 24px 20px 72px;
+  border: 1px solid var(--ln);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.r-single-chapter .comment-author img,
+.r-single-chapter .comment-body .avatar {
+  position: absolute;
+  left: 24px;
+  top: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: block;
+}
+
+.r-single-chapter .comment-author {
+  display: block;
+  margin-bottom: 4px;
+}
+.r-single-chapter .comment-author .fn {
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tx-1);
+}
+.r-single-chapter .comment-author .says { display: none; }
+
+.r-single-chapter .comment-metadata {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tx-4);
+  margin-bottom: 12px;
+}
+.r-single-chapter .comment-metadata a {
+  color: inherit;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.r-single-chapter .comment-metadata a:hover {
+  color: var(--green);
+}
+
+.r-single-chapter .comment-content {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--tx-2);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.r-single-chapter .comment-content p {
+  margin: 0 0 10px;
+}
+.r-single-chapter .comment-content p:last-child {
+  margin-bottom: 0;
+}
+
+.r-single-chapter .reply {
+  margin-top: 8px;
+}
+.r-single-chapter .reply a {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--tx-4);
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.r-single-chapter .reply a:hover {
+  color: var(--green);
+}
+
+/* ── 表单标题 ── */
+.r-single-chapter .comment-reply-title {
+  display: block;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tx-1);
+  margin: 40px 0 16px;
+}
+.r-single-chapter .comment-reply-title .cf-prompt {
+  color: var(--green);
+  font-weight: 700;
+  margin-right: 4px;
+}
+.r-single-chapter .comment-reply-title .cf-cmd {
+  color: var(--code-blue);
+}
+.r-single-chapter .comment-reply-title small {
+  font-weight: 400;
+  font-size: 12px;
+  margin-left: 12px;
+}
+.r-single-chapter .comment-reply-title small a {
+  color: var(--tx-3);
+}
+
+/* ── 表单 ── */
+.r-single-chapter .comment-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+.r-single-chapter .comment-form p {
+  margin: 0;
+  grid-column: 1 / -1;
+}
+.r-single-chapter .comment-form-author { grid-column: 1; }
+.r-single-chapter .comment-form-email  { grid-column: 2; }
+.r-single-chapter .comment-form-url    { grid-column: 1 / -1; }
+.r-single-chapter .comment-form-comment { grid-column: 1 / -1; }
+.r-single-chapter .form-submit { grid-column: 1 / -1; margin: 0; }
+
+.r-single-chapter .comment-form .comment-notes,
+.r-single-chapter .comment-form .logged-in-as {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--tx-4);
+  line-height: 1.7;
+  grid-column: 1 / -1;
+}
+.r-single-chapter .comment-form .logged-in-as a {
+  color: var(--tx-3);
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.r-single-chapter .comment-form .logged-in-as a:hover {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+.r-single-chapter .comment-form input[type="text"],
+.r-single-chapter .comment-form input[type="email"],
+.r-single-chapter .comment-form input[type="url"],
+.r-single-chapter .comment-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--ln-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--tx-1);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.r-single-chapter .comment-form input::placeholder,
+.r-single-chapter .comment-form textarea::placeholder {
+  color: var(--tx-4);
+}
+.r-single-chapter .comment-form input:focus,
+.r-single-chapter .comment-form textarea:focus {
+  border-color: var(--green);
+}
+.r-single-chapter .comment-form textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: var(--sans);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.r-single-chapter .comment-form .submit,
+.r-single-chapter .comment-form input[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  height: 44px;
+  padding: 0 22px;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  background: var(--green);
+  color: #000;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform  0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.r-single-chapter .comment-form .submit:hover,
+.r-single-chapter .comment-form input[type="submit"]:hover {
+  box-shadow: 0 0 32px color-mix(in srgb, var(--green) 40%, transparent);
+  transform: translateY(-1px);
+}
+
+/* ── 未登录提示 ── */
+.r-single-chapter .comments-locked {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 1px dashed var(--ln-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  margin-top: 24px;
+}
+.r-single-chapter .comments-locked-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--green) 6%, transparent);
+  color: var(--green);
+}
+.r-single-chapter .comments-locked-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+.r-single-chapter .comments-locked-body strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tx-1);
+}
+.r-single-chapter .comments-locked-body span {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--tx-3);
+}
+.r-single-chapter .comments-locked-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 6px;
+  background: var(--green);
+  color: #000;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.r-single-chapter .comments-locked-btn .prompt {
+  color: #000;
+  opacity: 0.6;
+}
+
+/* ── 移动端 ── */
+@media (max-width: 640px) {
+  .r-single-chapter .comment-form {
+    grid-template-columns: 1fr;
+  }
+  .r-single-chapter .comment-form-author,
+  .r-single-chapter .comment-form-email,
+  .r-single-chapter .comment-form-url,
+  .r-single-chapter .comment-form-comment,
+  .r-single-chapter .form-submit {
+    grid-column: 1;
+  }
+  .r-single-chapter .comment-body {
+    padding-left: 24px;
+  }
+  .r-single-chapter .comment-author img,
+  .r-single-chapter .comment-body .avatar {
+    position: static;
+    margin-bottom: 12px;
+  }
+}

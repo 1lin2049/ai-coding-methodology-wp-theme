@@ -1,0 +1,435 @@
+/* ═══════════════════════════════════════════════
+   PREVIEW PAGE · 试读目录页
+   严格遵循 Ant Design 设计规范
+   ═══════════════════════════════════════════════ */
+
+/* ── 页面容器 ── */
+.r-preview-index .r-main {
+  padding-top: 80px;
+  padding-bottom: 120px;
+}
+
+.r-preview-index .r-wrap {
+  max-width: 820px;
+}
+
+/* ── 页头 ── */
+.r-preview-index .r-head {
+  margin-bottom: 40px;
+}
+
+.r-preview-index .r-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  margin-bottom: 24px;
+  border: 1px solid var(--ln);
+  border-radius: 4px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--tx-3);
+}
+
+.r-preview-index .r-prompt {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.r-preview-index .r-path {
+  color: var(--code-orange);
+}
+
+.r-preview-index .r-h1 {
+  font-family: var(--sans);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--tx-1);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.r-preview-index .r-h1 em {
+  font-style: italic;
+  color: var(--green);
+}
+
+/* ── 卡片化概览 ── */
+.r-preview-index .r-overview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 24px;
+  border: 1px solid var(--ln-strong);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.r-preview-index .r-ov-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 16px;
+  border-right: 1px solid var(--ln);
+}
+
+.r-preview-index .r-ov-item:last-child {
+  border-right: none;
+}
+
+.r-preview-index .r-ov-num {
+  font-family: var(--mono);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--green);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.r-preview-index .r-ov-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tx-4);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── 分组 ── */
+.r-preview-index .r-group {
+  margin-bottom: 32px;
+}
+
+.r-preview-index .r-divider {
+  display: block;
+  margin: 24px 0 12px 0;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.r-preview-index .r-divider-label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tx-2);
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ── 章节列表容器 ── */
+.r-preview-index .r-list {
+  display: grid;
+  gap: 0;
+  margin: 0 0 8px 0;
+  border: 1px solid var(--ln-strong);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* 未分组列表（前面没有分隔标题时）· 额外上间距 */
+.r-preview-index .r-list + .r-list {
+  margin-top: 24px;
+}
+
+/* ── 章节卡片 ── */
+.r-preview-index .r-card {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 24px;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--ln);
+  background: transparent;
+  transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.r-preview-index .r-card:last-child {
+  border-bottom: none;
+}
+
+.r-preview-index .r-card:hover {
+  background: var(--surface-hover);
+}
+
+.r-preview-index .r-card-num {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--tx-3);
+  letter-spacing: 0.02em;
+}
+
+.r-preview-index .r-card-body {
+  min-width: 0;
+}
+
+.r-preview-index .r-card-title {
+  font-family: var(--sans);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--tx-1);
+  line-height: 1.5;
+  margin: 0 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.r-preview-index .r-card-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--tx-4);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+.r-preview-index .r-card-arrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--tx-3);
+  text-align: right;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.r-preview-index .r-card:hover .r-card-arrow {
+  color: var(--green);
+  transform: translateX(3px);
+}
+
+/* ── 空状态 ── */
+.r-preview-index .r-empty {
+  padding: 24px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--tx-3);
+  text-align: center;
+  border: 1px dashed var(--ln);
+  border-radius: 8px;
+}
+
+/* ── 解锁 CTA ── */
+.r-preview-index .r-unlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 40px;
+  padding: 20px 24px;
+  border: 1px solid var(--green);
+  border-radius: 8px;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--green) 6%, transparent),
+    var(--surface));
+  box-shadow: 0 0 40px color-mix(in srgb, var(--green) 8%, transparent);
+}
+
+.r-preview-index .r-unlock-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.r-preview-index .r-unlock-text strong {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tx-1);
+  line-height: 1.4;
+}
+
+.r-preview-index .r-unlock-text span {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--tx-3);
+  line-height: 1.5;
+}
+
+.r-preview-index .r-unlock-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 18px;
+  background: var(--green);
+  color: #000;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.r-preview-index .r-unlock-btn:hover {
+  box-shadow: 0 0 32px color-mix(in srgb, var(--green) 50%, transparent);
+}
+
+.r-preview-index .r-unlock-arrow {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.r-preview-index .r-unlock-btn:hover .r-unlock-arrow {
+  transform: translateX(3px);
+}
+
+/* ── 页脚 ── */
+.r-preview-index .r-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--ln);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--tx-4);
+  letter-spacing: 0.04em;
+}
+
+.r-preview-index .r-foot-sep {
+  color: var(--tx-4);
+}
+
+.r-preview-index .r-foot-quote {
+  font-style: italic;
+  color: var(--tx-3);
+}
+
+/* ── 顶部 r-header ── */
+.r-preview-index .r-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--ln);
+}
+
+.r-preview-index .r-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--tx-3);
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.r-preview-index .r-back:hover {
+  color: var(--green);
+}
+
+.r-preview-index .r-title {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--tx-2);
+  letter-spacing: 0.02em;
+}
+
+.r-preview-index .theme-toggle {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid var(--ln);
+  background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--tx-3);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.r-preview-index .theme-toggle:hover {
+  color: var(--tx-1);
+  border-color: var(--ln-strong);
+}
+
+.r-preview-index .theme-toggle svg {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  transition: opacity 0.2s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .r-preview-index .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
+[data-theme="dark"] .r-preview-index .icon-moon { opacity: 0; transform: rotate(-90deg) scale(.6); }
+[data-theme="light"] .r-preview-index .icon-sun { opacity: 0; transform: rotate(90deg) scale(.6); }
+[data-theme="light"] .r-preview-index .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+
+/* ── 响应式 ── */
+@media (max-width: 640px) {
+  .r-preview-index .r-main {
+    padding-top: 56px;
+    padding-bottom: 80px;
+  }
+
+  .r-preview-index .r-h1 {
+    font-size: 24px;
+  }
+
+  .r-preview-index .r-overview {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .r-preview-index .r-ov-item {
+    padding: 16px 8px;
+  }
+
+  .r-preview-index .r-ov-num {
+    font-size: 22px;
+  }
+
+  .r-preview-index .r-ov-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .r-preview-index .r-card {
+    grid-template-columns: 40px minmax(0, 1fr) 20px;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .r-preview-index .r-card-title {
+    font-size: 14px;
+    white-space: normal;
+  }
+
+  .r-preview-index .r-unlock {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 16px 18px;
+  }
+
+  .r-preview-index .r-unlock-btn {
+    justify-content: center;
+  }
+
+  .r-preview-index .r-title {
+    display: none;
+  }
+}
