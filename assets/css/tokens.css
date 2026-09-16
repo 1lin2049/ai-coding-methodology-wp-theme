@@ -108,6 +108,7 @@
   --space-4:  calc(var(--seed-unit) * 4);
   --space-6:  calc(var(--seed-unit) * 6);
   --space-8:  calc(var(--seed-unit) * 8);
+  --space-10: calc(var(--seed-unit) * 10);
   --space-12: calc(var(--seed-unit) * 12);
   --space-16: calc(var(--seed-unit) * 16);
   --space-24: calc(var(--seed-unit) * 24);
@@ -225,13 +226,13 @@
   /* Table Tokens · 对齐 Ant Design Table 组件 */
   --table-border-color:        var(--ln);
   --table-border-strong:       var(--ln-strong);
-  --table-header-border:       1px solid var(--ln-strong);
+  --table-header-border:       1px solid var(--ln);
   --table-cell-border:         1px solid var(--ln);
-  --table-radius:              var(--seed-radius);
+  --table-radius:              var(--seed-radius-lg);
   --table-header-bg:           var(--surface);
-  --table-header-color:        var(--tx-3);
-  --table-cell-padding-y:      var(--space-4);
-  --table-cell-padding-x:      var(--space-5);
+  --table-header-color:        var(--tx-2);
+  --table-cell-padding-y:      var(--space-3);
+  --table-cell-padding-x:      var(--space-4);
   --table-row-hover-bg:        var(--surface-hover);
   --table-first-col-color:     var(--tx-1);
 }

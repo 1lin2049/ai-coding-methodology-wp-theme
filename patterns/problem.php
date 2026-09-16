@@ -5,6 +5,7 @@
  * Categories: ai-coding/sections
  * Description: 日志时间线 + 症状网格
  */
+if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
 <!-- wp:html -->
 <section class="section" id="problem">
