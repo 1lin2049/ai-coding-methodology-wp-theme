@@ -754,55 +754,10 @@ body.layout-custom.r-single-chapter .r-article-wrap {
 }
 .r-single-chapter .sidebar-inner {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--widget-gap);
 }
 
-/* ── 上下章导航 ── */
-.wp-chapter-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-.wp-chapter-nav-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--ln);
-  border-radius: var(--seed-radius);
-  background: var(--surface);
-  transition: border-color var(--duration-normal) var(--ease-natural),
-              background var(--duration-normal) var(--ease-natural);
-}
-.wp-chapter-nav-item:hover {
-  border-color: var(--map-green-border);
-  background: var(--map-green-bg-soft);
-}
-.wp-chapter-nav-next { text-align: right; }
-.wp-chapter-nav-dir {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .06em;
-  color: var(--tx-4);
-}
-.wp-chapter-nav-title {
-  font-size: 13px;
-  color: var(--tx-2);
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.wp-chapter-nav-item:hover .wp-chapter-nav-title { color: var(--tx-1); }
-
-/* ── 空状态引导 ── */
-.sidebar-hint {
-  font-size: 13px;
-  color: var(--tx-4);
-  line-height: 1.6;
-}
-.sidebar-hint a { color: var(--green); }
+/* 卡片 / 卡头 / 列表行 / 卡脚 / 标签 / 搜索等统一语法见 main.css → SIDEBAR */
 
 
 /* ═══════════════════════════════════════════════

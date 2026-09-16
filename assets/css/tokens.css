@@ -214,14 +214,19 @@
   --comment-actions-size:     12px;
   --comment-padding:          var(--space-3) var(--space-4);
 
-  /* ── Widget / Card ── */
-  --widget-bg:                var(--bg-elev);
-  --widget-border:            var(--ln-strong);
+  /* ── Widget / Sidebar 统一卡语法 ──
+     每个 widget 都是「卡头(head) + 正文(body) + 可选卡脚(foot)」，
+     正文只有两种模式：padded（.widget-body）或 list（.widget-list 全幅行） */
+  --widget-bg:                var(--surface);
+  --widget-border:            var(--ln);
+  --widget-border-hover:      var(--tx-4);
   --widget-radius:            var(--seed-radius-lg);
-  --widget-padding:           var(--space-6);
-  --widget-header-padding:    var(--space-4) var(--space-6);
-  --widget-shadow:            0 1px 2px rgba(0, 0, 0, .3), 0 1px 6px -1px rgba(0, 0, 0, .02);
-  --widget-shadow-hover:      0 4px 12px rgba(0, 0, 0, .15);
+  --widget-gap:               var(--space-4);
+  --widget-head-h:            var(--space-12);
+  --widget-foot-h:            var(--space-10);
+  --widget-row-h:             var(--space-10);
+  --widget-h-pad:             var(--space-4);
+  --widget-body-pad:          var(--space-4);
 
   /* Table Tokens · 对齐 Ant Design Table 组件 */
   --table-border-color:        var(--ln);
@@ -260,9 +265,6 @@
 
   --surface:       rgba(0, 0, 0, .02);
   --surface-hover: rgba(0, 0, 0, .035);
-
-  --widget-shadow:       0 1px 2px rgba(0, 0, 0, .06), 0 1px 6px -1px rgba(0, 0, 0, .02);
-  --widget-shadow-hover: 0 4px 12px rgba(0, 0, 0, .1);
 }
 
 

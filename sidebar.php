@@ -2,7 +2,7 @@
 /**
  * 侧栏渲染 —— 混合模式：
  *   1. 有动态小工具 → dynamic_sidebar()（管理员自定义）
- *   2. 无 → 读者页面渲染主题默认四组件
+ *   2. 无 → 读者页面渲染主题默认三卡（目录 / 搜索 / 分组）
  *   3. 非读者 → 空状态引导
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -25,7 +25,6 @@ $is_reader = is_singular( 'chapter' ) || is_page_template( 'page-preview.php' );
 		<?php elseif ( $is_reader ) : ?>
 
 			<?php get_template_part( 'parts/widget-chapters' ); ?>
-			<?php get_template_part( 'parts/widget-prevnext' ); ?>
 			<?php get_template_part( 'parts/widget-search' ); ?>
 			<?php get_template_part( 'parts/widget-tags' ); ?>
 

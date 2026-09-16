@@ -77,3 +77,20 @@ add_action( 'wp_enqueue_scripts', function () {
         wp_enqueue_script( 'comment-reply' );
     }
 } );
+
+/* ═══════════════════════════════════════════════
+   编辑器样式链 · 让 Pattern 在块编辑器中带完整主题样式
+   （经典主题不自动注入主题样式，导致插入的样板在编辑器里无样式）
+   ═══════════════════════════════════════════════ */
+add_action( 'enqueue_block_assets', function () {
+    if ( ! is_admin() ) return;
+    $uri = AI_CODING_URI;
+    $ver = AI_CODING_VERSION;
+
+    wp_enqueue_style( 'ai-editor-reset',      "$uri/assets/css/reset.css",      [], $ver );
+    wp_enqueue_style( 'ai-editor-tokens',     "$uri/assets/css/tokens.css",     [ 'ai-editor-reset' ], $ver );
+    wp_enqueue_style( 'ai-editor-components', "$uri/assets/css/components.css", [ 'ai-editor-tokens' ], $ver );
+    wp_enqueue_style( 'ai-editor-a11y',       "$uri/assets/css/a11y.css",       [ 'ai-editor-components' ], $ver );
+    wp_enqueue_style( 'ai-editor-main',       "$uri/assets/css/main.css",       [ 'ai-editor-a11y' ], $ver );
+    wp_enqueue_style( 'ai-editor-motion',     "$uri/assets/css/motion.css",     [ 'ai-editor-main' ], $ver );
+} );

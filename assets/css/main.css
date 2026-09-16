@@ -2158,13 +2158,17 @@ body.layout-sidebar-right .layout-shell {
 }
 
 /* ═══════════════════════════════════════════════
-   SIDEBAR · Widget 卡片体系
-   借鉴掘金 / 知乎侧栏语义：清晰标题 + 榜单列表 + 悬停反馈
+   SIDEBAR · 统一 Widget 卡语法
+   语义：目录 / 搜索 / 分组 三卡（借鉴掘金 / 知乎侧栏）
+   结构契约：.widget = 卡头(.widget-head) + 正文(.widget-body 或 .widget-list) + 卡脚(.widget-foot)
+   正文只有两种模式：padded 或 list 全幅行，二者互斥，不再按元素类型打补丁
    ═══════════════════════════════════════════════ */
 .sidebar {
   position: sticky;
   top: calc(var(--nav-h) + var(--space-6));
+  width: 100%;
   padding-top: var(--space-24);
+  font-family: var(--sans);
 }
 @media (max-width: 900px) {
   .sidebar { position: static; padding-top: 0; }
@@ -2172,69 +2176,75 @@ body.layout-sidebar-right .layout-shell {
 
 .sidebar-inner {
   display: grid;
-  gap: var(--space-4);
-  font-family: var(--sans);
+  gap: var(--widget-gap);
 }
 
-/* ── Widget Card ── */
+/* ── 卡片 ── */
 .sidebar .widget {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   border: 1px solid var(--widget-border);
   border-radius: var(--widget-radius);
   background: var(--widget-bg);
-  box-shadow: var(--widget-shadow);
   overflow: hidden;
-  transition:
-    box-shadow   var(--duration-slow) var(--ease-natural),
-    border-color var(--duration-slow) var(--ease-natural);
+  transition: border-color var(--duration-slow) var(--ease-natural);
 }
-.sidebar .widget:hover {
-  box-shadow: var(--widget-shadow-hover);
-  border-color: var(--tx-4);
-}
+.sidebar .widget:hover { border-color: var(--widget-border-hover); }
 
-/* ── Widget Header ── */
-.sidebar .widget-title,
-.sidebar .wp-block-heading {
+/* ── 卡头 ── */
+.sidebar .widget-head {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--widget-head-h);
+  padding: 0 var(--widget-h-pad);
+  border-bottom: 1px solid var(--ln);
+}
+.sidebar .widget-head > h1,
+.sidebar .widget-head > h2,
+.sidebar .widget-head > h3,
+.sidebar .widget-head > h4,
+.sidebar .widget-title,
+.sidebar .wp-block-heading {
   margin: 0;
-  padding: var(--widget-header-padding);
   font-family: var(--sans);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0;
   color: var(--tx-1);
-  text-transform: none;
-  border-bottom: 1px solid var(--ln);
 }
-.sidebar .widget-title::before,
-.sidebar .wp-block-heading::before {
+.sidebar .widget-head .widget-title { display: flex; align-items: center; }
+.sidebar .widget-title::before {
   content: "";
+  flex-shrink: 0;
   width: 3px;
   height: 14px;
+  margin-right: var(--space-2);
   background: var(--green);
   border-radius: 2px;
-  flex-shrink: 0;
+}
+.sidebar .widget-head-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--tx-4);
+  white-space: nowrap;
 }
 
-/* ── Widget Body 内边距 ── */
-.sidebar .widget > p,
-.sidebar .widget > form,
-.sidebar .widget > div,
-.sidebar .widget > .tagcloud,
-.sidebar .widget > .wp-block-group {
-  padding: var(--widget-padding);
+/* ── 正文 · padded 模式 ── */
+.sidebar .widget-body {
+  padding: var(--widget-body-pad);
 }
-.sidebar .widget > p + p { padding-top: 0; }
 
-/* ── 列表 ── */
-.sidebar ul {
+/* ── 列表基础 ── */
+.sidebar ul,
+.sidebar .widget-list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 .sidebar li {
   font-size: 13.5px;
@@ -2247,26 +2257,24 @@ body.layout-sidebar-right .layout-shell {
 }
 .sidebar a:hover { color: var(--green); }
 
-/* ── 榜单式列表（章节目录 / 热门） ── */
-.sidebar .widget ul { padding: 0; }
-.sidebar .widget li + li { border-top: 1px solid var(--ln); }
-.sidebar .widget li > a {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--widget-padding);
+/* ── 正文 · list 全幅行模式（章节目录） ── */
+.sidebar .widget-list li + li { border-top: 1px solid var(--ln); }
+.sidebar .widget-list li > a {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--widget-row-h);
+  padding: var(--space-2) var(--widget-h-pad);
   transition: background var(--duration-fast) var(--ease-natural);
 }
-.sidebar .widget li > a:hover {
-  background: var(--surface-hover);
-}
-.sidebar .widget li > a::before {
+.sidebar .widget-list li > a:hover { background: var(--surface-hover); }
+.sidebar .widget-list li > a::after {
   content: "";
   position: absolute;
   left: 0;
-  top: 6px;
-  bottom: 6px;
+  top: 8px;
+  bottom: 8px;
   width: 2px;
   background: var(--green);
   border-radius: 0 2px 2px 0;
@@ -2274,7 +2282,7 @@ body.layout-sidebar-right .layout-shell {
   transform: scaleY(.4);
   transition: opacity var(--duration-fast) var(--ease-natural), transform var(--duration-fast) var(--ease-spring);
 }
-.sidebar .widget li > a:hover::before { opacity: 1; transform: scaleY(1); }
+.sidebar .widget-list li > a:hover::after { opacity: 1; transform: scaleY(1); }
 
 /* 章节序号 */
 .sidebar .ch-num {
@@ -2289,19 +2297,53 @@ body.layout-sidebar-right .layout-shell {
 .sidebar .ch-title {
   min-width: 0;
   flex: 1;
-  font-size: 13.5px;
+  font-size: 13px;
   line-height: 1.5;
   color: var(--tx-2);
 }
-.sidebar li > a:hover .ch-title { color: var(--tx-1); }
+.sidebar .widget-list li > a:hover .ch-title { color: var(--tx-1); }
 
 /* 当前章节 */
-.sidebar li > a[aria-current="true"] {
+.sidebar .widget-list li > a[aria-current="true"] {
   background: var(--map-green-bg-soft);
 }
-.sidebar li > a[aria-current="true"]::before { opacity: 1; transform: scaleY(1); }
-.sidebar li > a[aria-current="true"] .ch-num { color: var(--green); }
-.sidebar li > a[aria-current="true"] .ch-title { color: var(--green); font-weight: 600; }
+.sidebar .widget-list li > a[aria-current="true"]::after { opacity: 1; transform: scaleY(1); }
+.sidebar .widget-list li > a[aria-current="true"] .ch-num { color: var(--green); }
+.sidebar .widget-list li > a[aria-current="true"] .ch-title { color: var(--green); font-weight: 600; }
+
+/* ── 卡脚（目录卡内上一章 / 下一章，替代独立导航卡） ── */
+.sidebar .widget-foot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--ln);
+}
+.sidebar .widget-foot > a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: var(--widget-foot-h);
+  padding: var(--space-2) var(--widget-h-pad);
+  transition: background var(--duration-fast) var(--ease-natural);
+}
+.sidebar .widget-foot > a + a { border-left: 1px solid var(--ln); }
+.sidebar .widget-foot > a:hover { background: var(--surface-hover); }
+.sidebar .widget-foot-dir {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--tx-4);
+}
+.sidebar .widget-foot-title {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--tx-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.sidebar .widget-foot > a:hover .widget-foot-title { color: var(--tx-1); }
 
 /* ── 文本内容 ── */
 .sidebar .widget p {
@@ -2313,7 +2355,7 @@ body.layout-sidebar-right .layout-shell {
 .sidebar .widget p + p { margin-top: var(--space-3); }
 .sidebar .widget strong { color: var(--tx-1); font-weight: 600; }
 
-/* ── 标签云 ── */
+/* ── 标签云（padded 模式） ── */
 .sidebar .tagcloud {
   display: flex;
   flex-wrap: wrap;
@@ -2330,38 +2372,58 @@ body.layout-sidebar-right .layout-shell {
 }
 .sidebar .tagcloud a:hover {
   color: var(--green);
-  border-color: var(--map-green-border);
+  border-color: var(--green);
   background: var(--map-green-bg-soft);
 }
 
-/* ── 搜索表单 ── */
+/* ── 搜索表单（padded 模式） ── */
 .sidebar .searchform { margin: 0; }
 .sidebar .searchform .sf-inner { height: 40px; }
 .sidebar .searchform .sf-cmd { display: none; }
 
-/* ── 最近文章 ── */
-.sidebar .widget_recent_entries li a {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+/* ── 原生 WP 小工具（管理员配置态）：内缩列表，与全幅行隔离 ── */
+.sidebar .widget ul:not(.widget-list) {
+  padding: var(--widget-body-pad);
 }
-.sidebar .widget_recent_entries .post-date {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--tx-4);
-}
+.sidebar .widget ul:not(.widget-list) li + li { margin-top: var(--space-2); }
+.sidebar .widget ul:not(.widget-list) li { font-size: 13px; line-height: 1.6; }
+.sidebar .widget ul:not(.widget-list) li > a { display: block; }
 
-/* ── 最近评论 ── */
-.sidebar .widget_recent_comments li { font-size: 13px; line-height: 1.6; }
-.sidebar .widget_recent_comments .comment-author-link { font-weight: 600; color: var(--tx-1); }
+/* 原生小工具标题（无 .widget-head 包装时的兜底语法） */
+.sidebar .widget > .widget-title:first-child,
+.sidebar .widget > h1:first-child,
+.sidebar .widget > h2:first-child,
+.sidebar .widget > h3:first-child,
+.sidebar .widget > h4:first-child {
+  display: flex;
+  align-items: center;
+  min-height: var(--widget-head-h);
+  margin: 0;
+  padding: 0 var(--widget-h-pad);
+  border-bottom: 1px solid var(--ln);
+}
+.sidebar .widget > .widget-title:first-child::before {
+  content: "";
+  flex-shrink: 0;
+  width: 3px;
+  height: 14px;
+  margin-right: var(--space-2);
+  background: var(--green);
+  border-radius: 2px;
+}
 
 /* ── 归档 / 分类：两栏对齐 ── */
+.sidebar .widget_archive ul:not(.widget-list),
+.sidebar .widget_categories ul:not(.widget-list) {
+  padding: 0;
+}
 .sidebar .widget_archive li,
 .sidebar .widget_categories li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-2) var(--widget-padding);
+  min-height: var(--widget-row-h);
+  padding: var(--space-2) var(--widget-h-pad);
 }
 .sidebar .widget_archive .count,
 .sidebar .widget_categories .count {
@@ -2369,6 +2431,14 @@ body.layout-sidebar-right .layout-shell {
   font-size: 12px;
   color: var(--tx-4);
 }
+
+/* ── 空状态引导 ── */
+.sidebar-hint {
+  font-size: 13px;
+  color: var(--tx-4);
+  line-height: 1.6;
+}
+.sidebar-hint a { color: var(--green); }
 
 /* ── 分页 ── */
 .pagination,
@@ -3606,4 +3676,167 @@ html {
   html {
     overflow-x: clip;
   }
+}
+/* ═══════════════════════════════════════════════
+   PATTERNS · 编辑器原子组件
+   品牌样板的可复用核心块组件（样式链已注入块编辑器）
+   ═══════════════════════════════════════════════ */
+
+/* ── 卡片（通用） ── */
+.w-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px solid var(--ln);
+  border-radius: var(--seed-radius-lg);
+  background: var(--surface);
+  transition: border-color var(--duration-slow) var(--ease-natural);
+}
+.w-card:hover { border-color: var(--green); }
+.feature-grid .wp-block-columns { gap: var(--space-4); margin-bottom: 0; }
+
+/* ── 清单（实体动词开头） ── */
+.w-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.w-checklist li {
+  position: relative;
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-3);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--tx-2);
+}
+.w-checklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+}
+.w-checklist li strong { color: var(--tx-1); font-weight: 600; }
+
+/* ── 引用 / 警示 ── */
+.w-callout {
+  margin: var(--space-8) 0;
+  padding: var(--space-6) var(--space-8);
+  border: 1px solid var(--ln);
+  border-left: 3px solid var(--green);
+  border-radius: var(--seed-radius);
+  background: var(--surface);
+}
+.w-callout p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--tx-2);
+}
+.w-callout p strong { color: var(--tx-1); }
+
+/* ── 数据行 ── */
+.w-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-8) 0;
+}
+.w-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border: 1px solid var(--ln);
+  border-radius: var(--seed-radius);
+  background: var(--surface);
+}
+.w-stat-num {
+  font-family: var(--mono);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--tx-1);
+  font-variant-numeric: tabular-nums;
+}
+.w-stat-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--tx-3);
+  text-transform: lowercase;
+}
+
+/* ── 前后对比 ── */
+.w-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin: var(--space-8) 0;
+}
+@media (max-width: 900px) {
+  .w-compare { grid-template-columns: 1fr; }
+}
+.w-compare-card {
+  padding: var(--space-6);
+  border: 1px solid var(--ln);
+  border-radius: var(--seed-radius-lg);
+  background: var(--surface);
+}
+.w-compare-card h3 {
+  margin: 0 0 var(--space-3);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .1em;
+  font-weight: 700;
+  color: var(--tx-4);
+}
+.w-compare-card.w-compare-new { border-color: var(--map-green-border); }
+.w-compare-card.w-compare-new h3 { color: var(--green); }
+.w-compare-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--tx-2);
+}
+.w-compare-card .w-arrow { color: var(--green); }
+
+/* ── CTA 行 ── */
+.w-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+.w-cta .wp-block-button { margin: 0; }
+
+/* ── CTA 核心按钮块接缝（.wp-block-button__link → 主题 .btn 语义） ── */
+.w-cta .wp-block-button__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--btn-gap, 8px);
+  height: var(--btn-h, 40px);
+  padding: 0 var(--btn-px, 20px);
+  border-radius: var(--btn-radius, 6px);
+  font-family: var(--mono);
+  font-size: var(--btn-font, 13px);
+  font-weight: var(--btn-weight, 600);
+  border: 1px solid var(--ln);
+  background: var(--bg-elev);
+  color: var(--tx-2);
+  box-shadow: none;
+  transition: border-color var(--duration-normal) var(--ease-natural), color var(--duration-normal) var(--ease-natural), background var(--duration-normal) var(--ease-natural);
+  text-decoration: none;
+}
+.w-cta .wp-block-button:hover .wp-block-button__link {
+  color: var(--green);
+  border-color: var(--green);
+  background: var(--map-green-bg-soft);
+}
+.w-cta .is-style-outline .wp-block-button__link {
+  background: transparent;
 }
