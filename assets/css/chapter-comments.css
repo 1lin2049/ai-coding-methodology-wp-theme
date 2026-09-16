@@ -324,4 +324,12 @@
     position: static;
     margin-bottom: 12px;
   }
+  /* iOS 聚焦字号 ≥16px，防止自动缩放 */
+  .r-single-chapter .comment-form input[type="text"],
+  .r-single-chapter .comment-form input[type="email"],
+  .r-single-chapter .comment-form input[type="url"],
+  .r-single-chapter .comment-form textarea { font-size: 16px; }
+  .r-single-chapter .comment-form textarea { min-height: 112px; }
+  .r-single-chapter .comment-form .submit,
+  .r-single-chapter .comment-form input[type="submit"] { width: 100%; }
 }

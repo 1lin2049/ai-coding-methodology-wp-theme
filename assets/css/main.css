@@ -1638,6 +1638,7 @@ main > .section:first-child,
 /* ── 单条评论 · Ant Design Comment 结构 ── */
 .comment-body {
   display: flex;
+  align-items: flex-start;
   gap: var(--comment-avatar-gap);
   padding: var(--comment-padding);
   border-bottom: var(--comment-border);
@@ -1660,9 +1661,12 @@ main > .section:first-child,
   min-width: 0;
 }
 
-/* 作者名 + 时间 · inline 排列 */
+/* 作者名 + 时间 · 分两行（避免长日期在窄屏与昵称争空间 */
 .comment-author {
-  display: inline;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 .comment-author .fn {
   font-style: normal;
@@ -1674,11 +1678,12 @@ main > .section:first-child,
 .comment-author .says { display: none; }
 
 .comment-metadata {
-  display: inline;
+  display: block;
   font-family: var(--mono);
   font-size: 11px;
+  line-height: 1.5;
   color: var(--tx-4);
-  margin-left: var(--space-2);
+  margin-top: 2px;
 }
 .comment-metadata a {
   color: inherit;
@@ -1700,7 +1705,7 @@ main > .section:first-child,
 /* Actions 栏 · 对齐 Ant Design Comment actions */
 .comment-actions {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-2);
   margin-top: var(--space-3);
   font-size: var(--comment-actions-size);
 }
@@ -1717,6 +1722,21 @@ main > .section:first-child,
 }
 .comment-actions a:hover,
 .comment-actions button:hover { color: var(--green); }
+
+/* 回复链接 · Ant Design Button（轻量） */
+.comment-actions .comment-reply-link {
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--ln);
+  border-radius: var(--seed-radius-sm);
+  color: var(--tx-3);
+  transition: all var(--duration-normal) var(--ease-natural);
+}
+.comment-actions .comment-reply-link:hover {
+  color: var(--green);
+  border-color: var(--green);
+  background: var(--map-green-bg-soft);
+}
 
 /* 回复链接 · 归入 actions 栏 */
 .reply {
@@ -1901,15 +1921,37 @@ main > .section:first-child,
 }
 
 @media (max-width: 640px) {
-  .comment-form { grid-template-columns: 1fr; }
+  /* 头像略收，腾出正文宽度 */
+  :root {
+    --comment-avatar-size: 28px;
+    --comment-avatar-gap: 10px;
+  }
+  .comment-body { padding: var(--space-3) 0; }
+  .comment-list > li { margin-bottom: var(--space-4); }
+  .comment-content { font-size: 14px; line-height: 1.7; }
+
+  /* 嵌套回复 · 左缩进配合虚线导轨，避免深嵌套挤压 */
+  .comment-list .children {
+    margin-left: var(--space-4);
+    padding-left: var(--space-3);
+    border-left: 2px dashed var(--ln);
+  }
+
+  .comment-form { grid-template-columns: 1fr; gap: var(--space-3); }
   .comment-form-author,
   .comment-form-email,
   .comment-form-url,
   .comment-form-comment,
   .form-submit { grid-column: 1; }
-  .comment-list .children {
-    margin-left: calc(var(--comment-avatar-size) + var(--space-2));
-  }
+
+  /* iOS 聚焦字号 ≥16px，防止输入框自动缩放 */
+  .comment-form input[type="text"],
+  .comment-form input[type="email"],
+  .comment-form input[type="url"],
+  .comment-form textarea { font-size: 16px; }
+  .comment-form textarea { min-height: 112px; }
+  .comment-form .submit,
+  .comment-form input[type="submit"] { width: 100%; }
 }
 
 /* ═══════════════════════════════════════════════

@@ -719,4 +719,60 @@ html, body {
   .final-btn-ghost,
   .btn { min-height: 44px; }
   .foot-col a { min-height: 36px; display: flex; align-items: center; }
+  .sf-submit { width: 40px; height: 40px; }
+}
+
+/* ═══════════════════════════════════════════════
+   MOBILE FINE-TUNE · 精细移动端优化
+   对齐 Ant Design 体系：8px 节奏、触控目标 ≥40px、
+   iOS 聚焦字号 ≥16px（防自动缩放）
+   ═══════════════════════════════════════════════ */
+
+/* 导航高度 token 与真实高度同步（52px），
+   后续 --nav-h 相关的 scroll-margin / 浮层定位 一致收紧 */
+@media (max-width: 900px) {
+  :root { --nav-h: 52px; }
+}
+
+/* 文章 / 页面 / 列表页首屏顶部间距收紧：
+   原 calc(space-24 + nav-h) = 152px，手机端过大 */
+@media (max-width: 900px) {
+  main > .section:first-child,
+  .layout-main > .section:first-child {
+    padding-top: calc(var(--nav-h) + var(--space-6));
+  }
+}
+@media (max-width: 640px) {
+  main > .section:first-child,
+  .layout-main > .section:first-child {
+    padding-top: calc(var(--nav-h) + var(--space-4));
+  }
+  .section-head { margin-bottom: var(--space-8); }
+  .section-title { margin-bottom: var(--space-4); }
+}
+
+/* 正文排版 · 移动端阅读尺度（Ant Design 标题层级降幅） */
+@media (max-width: 640px) {
+  .entry-content { font-size: 15.5px; line-height: 1.8; }
+  .entry-content h2 { font-size: 21px; margin-top: var(--space-8); }
+  .entry-content h3 { font-size: 17px; margin-top: var(--space-6); }
+  .entry-content blockquote { font-size: 16px; }
+  .entry-content > * + * { margin-top: var(--space-4); }
+  .entry-content pre {
+    padding: var(--space-4) var(--space-4);
+    font-size: 12.5px;
+  }
+}
+
+/* 搜索框 · iOS 聚焦不缩放 + 触控区扩大 */
+@media (max-width: 640px) {
+  .sf-inner { height: 40px; padding: 0 var(--space-3); }
+  .sf-input { font-size: 16px; }
+  .sf-cmd { display: none; }
+}
+
+/* 底部安全区（iPhone 小白条 / 手势区），浮层按钮避让 */
+@media (max-width: 640px) {
+  footer { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .float-cta { bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px)); }
 }
