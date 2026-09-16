@@ -71,7 +71,7 @@
 @keyframes glowIn {
   to { opacity: 1; }
 }
-@media (max-width: 1080px) {
+@media (max-width: 1024px) {
   .mouse-glow { display: none; }
 }
 
