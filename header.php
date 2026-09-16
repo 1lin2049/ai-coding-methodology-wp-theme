@@ -24,6 +24,32 @@
 
 <div class="progress" id="progress"></div>
 
+<?php
+/* 全站导航（primary 菜单，兜底为站内混合路由：主页锚点 + 真实页面） */
+$nav_links = '';
+if ( has_nav_menu( 'primary' ) ) {
+    $nav_links = wp_nav_menu( [
+        'theme_location' => 'primary',
+        'container'      => false,
+        'menu_class'     => 'navlinks-menu',
+        'depth'          => 1,
+        'fallback_cb'    => false,
+        'echo'           => false,
+    ] );
+} else {
+    $nav_items = [
+        [ 'terminal', '首页', home_url( '/' ) . '#top' ],
+        [ 'layers',   '方法', home_url( '/' ) . '#framework' ],
+        [ 'book',     '试读', home_url( '/preview/' ) ],
+        [ 'key',      '购买', home_url( '/purchase/' ) ],
+        [ 'user',     '关于', home_url( '/about/' ) ],
+    ];
+    foreach ( $nav_items as $it ) {
+        $nav_links .= '<a href="' . esc_url( $it[2] ) . '">' . ai_icon( $it[0], 13 ) . '<span>' . esc_html( $it[1] ) . '</span></a>';
+    }
+}
+?>
+
 <nav class="nav" id="nav">
   <div class="navin">
     <a class="logo" href="<?php echo esc_url( home_url( '/' ) ); ?>#top">
@@ -32,25 +58,7 @@
       <span class="logo-cursor"></span>
     </a>
 
-    <?php if ( has_nav_menu( 'primary' ) ) : ?>
-      <?php wp_nav_menu( [
-          'theme_location'  => 'primary',
-          'container'       => 'div',
-          'container_class' => 'navlinks',
-          'depth'           => 1,
-          'fallback_cb'     => false,
-      ] ); ?>
-    <?php else : ?>
-      <div class="navlinks">
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#problem"><?php echo ai_icon( 'file-text', 13 ); ?><span>问题</span></a>
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#paradigm"><?php echo ai_icon( 'git-branch', 13 ); ?><span>范式</span></a>
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#framework"><?php echo ai_icon( 'layers', 13 ); ?><span>方法</span></a>
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#assets"><?php echo ai_icon( 'package', 13 ); ?><span>资产</span></a>
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#data"><?php echo ai_icon( 'git-commit', 13 ); ?><span>数据</span></a>
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>#pricing"><?php echo ai_icon( 'key', 13 ); ?><span>版本</span></a>
-        <a href="<?php echo esc_url( home_url( '/preview/' ) ); ?>"><?php echo ai_icon( 'book', 13 ); ?><span>试读</span></a>
-      </div>
-    <?php endif; ?>
+    <div class="navlinks"><?php echo $nav_links; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 
     <div class="nav-actions">
       <button class="theme-toggle" id="themeToggle" aria-label="<?php esc_attr_e( '切换主题', 'ai-coding' ); ?>">
@@ -58,9 +66,23 @@
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
       <a class="nav-cta" href="<?php echo esc_url( home_url( '/#pricing' ) ); ?>"><span class="prompt-inline">$</span> install</a>
+      <button class="nav-burger" id="navBurger" type="button" aria-expanded="false" aria-controls="navPanel" aria-label="<?php esc_attr_e( '打开菜单', 'ai-coding' ); ?>">
+        <span class="nav-burger-bar" aria-hidden="true"></span>
+        <span class="nav-burger-bar" aria-hidden="true"></span>
+        <span class="nav-burger-bar" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
 </nav>
+
+<aside class="nav-panel" id="navPanel" aria-hidden="true">
+  <div class="nav-panel-inner">
+    <nav aria-label="<?php esc_attr_e( '站点导航', 'ai-coding' ); ?>"><?php echo $nav_links; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></nav>
+    <div class="nav-panel-foot">
+      <a class="nav-cta" href="<?php echo esc_url( home_url( '/#pricing' ) ); ?>"><span class="prompt-inline">$</span> install</a>
+    </div>
+  </div>
+</aside>
 
 <?php get_template_part( 'parts/side-nav' ); ?>
 <?php get_template_part( 'parts/float-actions' ); ?>

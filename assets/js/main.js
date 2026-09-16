@@ -22,6 +22,24 @@
     setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   });
 
+  /* NAV BURGER · 移动端菜单 */
+  const burger = document.getElementById('navBurger');
+  const panel  = document.getElementById('navPanel');
+  if (burger && panel) {
+    const setPanel = (open) => {
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+      panel.classList.toggle('open', open);
+      panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+    };
+    burger.addEventListener('click', () => {
+      setPanel(burger.getAttribute('aria-expanded') !== 'true');
+    });
+    panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setPanel(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setPanel(false); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 1024) setPanel(false); });
+  }
+
   /* SIDE NAV · TOC 生成 */
   const sideNav = document.getElementById('sideNav');
   let navItems  = sideNav ? Array.from(sideNav.querySelectorAll('.side-dot, .toc-item')) : [];
@@ -210,7 +228,7 @@
       }
     }
 
-    document.querySelectorAll('.navlinks a').forEach(a => {
+    document.querySelectorAll('.navlinks a, .nav-panel a').forEach(a => {
       const href = a.getAttribute('href') || '';
       if (!href.includes('#')) return;
       const hash = '#' + href.split('#')[1];

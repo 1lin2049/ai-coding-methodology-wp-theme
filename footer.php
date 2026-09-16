@@ -25,9 +25,9 @@
 
       <?php
       $foot_menus = [
-          'footer-content'  => [ '// content',  [ '问题' => '#problem', '方法论' => '#framework', '工程结构' => '#project', '工程资产' => '#assets' ] ],
-          'footer-purchase' => [ '// purchase', [ '三种版本' => '#pricing', '免费试读' => '#preview', '常见问题' => '#faq' ] ],
-          'footer-other'    => [ '// other',    [ '作者' => '#author', '实践数据' => '#data', '返回顶部' => '#top' ] ],
+          'footer-content'  => [ '// content',  [ '问题' => home_url( '/' ) . '#problem', '方法论' => home_url( '/' ) . '#framework', '工程结构' => home_url( '/' ) . '#project', '工程资产' => home_url( '/' ) . '#assets' ] ],
+          'footer-purchase' => [ '// purchase', [ '三种版本' => home_url( '/' ) . '#pricing', '免费试读' => home_url( '/preview/' ), '购买' => home_url( '/purchase/' ), '常见问题' => home_url( '/' ) . '#faq' ] ],
+          'footer-other'    => [ '// other',    [ '作者' => home_url( '/about/' ), '联系' => home_url( '/contact/' ), '实践数据' => home_url( '/' ) . '#data', '返回顶部' => '#top' ] ],
       ];
       foreach ( $foot_menus as $loc => $data ) :
           list( $heading, $fallback ) = $data;
@@ -49,6 +49,14 @@
         </div>
       <?php endforeach; ?>
     </div>
+
+    <nav class="foot-links" aria-label="<?php esc_attr_e( '底部快捷导航', 'ai-coding' ); ?>">
+      <a href="<?php echo esc_url( home_url( '/' ) . '#framework' ); ?>">方法</a>
+      <a href="<?php echo esc_url( home_url( '/preview/' ) ); ?>">试读</a>
+      <a href="<?php echo esc_url( home_url( '/purchase/' ) ); ?>">购买</a>
+      <a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">关于</a>
+      <a href="#top">返回顶部</a>
+    </nav>
 
     <div class="foot-bot">
       <span>© <?php echo esc_html( wp_date( 'Y' ) ); ?> 李咏燊</span>
