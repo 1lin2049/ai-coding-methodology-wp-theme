@@ -805,6 +805,62 @@ body.layout-custom.r-single-chapter .r-article-wrap {
 }
 .r-single-chapter .sidebar a:hover { color: var(--green); }
 
+/* ── 章节目录编号 ── */
+.r-single-chapter .sidebar .ch-num {
+  display: inline-block;
+  width: 20px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tx-4);
+  flex-shrink: 0;
+}
+
+/* ── 当前章节高亮 ── */
+.r-single-chapter .sidebar a[aria-current="true"] {
+  color: var(--green);
+}
+.r-single-chapter .sidebar a[aria-current="true"] .ch-num {
+  color: var(--green);
+}
+
+/* ── 上下章导航 ── */
+.wp-chapter-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.wp-chapter-nav-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  border: 1px solid var(--ln);
+  border-radius: var(--seed-radius);
+  transition: border-color var(--duration-normal) var(--ease-natural);
+}
+.wp-chapter-nav-item:hover { border-color: var(--green); }
+.wp-chapter-nav-next { text-align: right; }
+.wp-chapter-nav-dir {
+  font-size: 11px;
+  font-family: var(--mono);
+  letter-spacing: .08em;
+  color: var(--tx-4);
+  text-transform: uppercase;
+}
+.wp-chapter-nav-title {
+  font-size: 13px;
+  color: var(--tx-2);
+  line-height: 1.5;
+}
+
+/* ── 空状态引导 ── */
+.sidebar-hint {
+  font-size: 13px;
+  color: var(--tx-4);
+  line-height: 1.6;
+}
+.sidebar-hint a { color: var(--green); }
+
 
 /* ═══════════════════════════════════════════════
    RESPONSIVE

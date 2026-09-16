@@ -2,7 +2,7 @@
 /**
  * Title: Problem 问题
  * Slug: ai-coding/problem
- * Categories: ai-coding
+ * Categories: ai-coding/sections
  * Description: 日志时间线 + 症状网格
  */
 ?>

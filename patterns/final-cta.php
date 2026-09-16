@@ -2,7 +2,7 @@
 /**
  * Title: Final 结尾 CTA
  * Slug: ai-coding/final-cta
- * Categories: ai-coding
+ * Categories: ai-coding/cta
  * Description: 终端风格结尾 + 双 CTA
  */
 ?>

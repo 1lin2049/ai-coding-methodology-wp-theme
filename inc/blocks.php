@@ -1,42 +1,25 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * 样板（Block Patterns）分类注册。
+ *
+ * WordPress 6.1+ 会自动扫描主题根目录 `patterns/` 下的 PHP 文件，
+ * 读取文件头注释（Title / Slug / Categories / Description）并执行
+ * 文件内容作为样板的静态展示，因此这里只需注册分类即可。
+ *
+ * 双轨原则：
+ *   - parts/  → 前台动态渲染源（ai_opt() 自定义器数据，唯一真值）
+ *   - patterns/ → 编辑器可插入的静态展示样板（硬编码示例数据）
+ */
 add_action( 'init', function () {
-    register_block_pattern_category( 'ai-coding', [
-        'label' => __( 'AI Coding 方法论', 'ai-coding' ),
+    register_block_pattern_category( 'ai-coding/sections', [
+        'label' => __( 'AI Coding · 区块', 'ai-coding' ),
     ] );
-} );
-
-add_action( 'init', function () {
-    /* 仅后台（编辑器）需要 pattern，前台请求不再渲染 whole-parts 产生开销 */
-    if ( ! is_admin() ) return;
-
-    $dir = AI_CODING_DIR . '/patterns';
-    if ( ! is_dir( $dir ) ) return;
-
-    foreach ( glob( $dir . '/*.php' ) as $file ) {
-        $meta = get_file_data( $file, [
-            'title'       => 'Title',
-            'slug'        => 'Slug',
-            'description' => 'Description',
-            'categories'  => 'Categories',
-        ] );
-
-        if ( empty( $meta['title'] ) ) continue;
-
-        $slug = ! empty( $meta['slug'] )
-            ? $meta['slug']
-            : 'ai-coding/' . basename( $file, '.php' );
-
-        ob_start();
-        include $file;
-        $content = ob_get_clean();
-
-        register_block_pattern( $slug, [
-            'title'       => $meta['title'],
-            'description' => $meta['description'] ?? '',
-            'categories'  => array_filter( array_map( 'trim', explode( ',', $meta['categories'] ?: 'ai-coding' ) ) ),
-            'content'     => $content,
-        ] );
-    }
+    register_block_pattern_category( 'ai-coding/components', [
+        'label' => __( 'AI Coding · 组件', 'ai-coding' ),
+    ] );
+    register_block_pattern_category( 'ai-coding/cta', [
+        'label' => __( 'AI Coding · 行动区', 'ai-coding' ),
+    ] );
 } );
