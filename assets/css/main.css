@@ -1638,7 +1638,7 @@ main > .section:first-child,
       二级导轨 2px 灰线、三级及以上收细为 1px 弱线；
    ③ 缩进封顶：24 → 16 → 12px，五层后不再向右漂移，
       与顶层评论的视觉距离被拉回，间距也随深逐级收紧
-      （16 → 12 → 8px）；
+      （顶层评论→线程 20 → 线程内 12 → 深层 8px）；
    ④ 三级以上的正文微微减重（tx-3），层级靠“弱化”识别。
    ⑤ 整条评论行 hover 高亮，深线程中可逐条追踪归属。 */
 .comment-list .children {
@@ -1649,6 +1649,7 @@ main > .section:first-child,
   position: relative;
 }
 .comment-list > li > .children {
+  margin-top: var(--space-5);
   border-left: 3px solid var(--ln-strong);
 }
 .comment-list > li > .children::before {

@@ -52,6 +52,7 @@
   position: relative;
 }
 .r-single-chapter .comment-list > li > .children {
+  margin-top: 20px;
   border-left: 3px solid var(--ln-strong);
 }
 .r-single-chapter .comment-list > li > .children::before {
