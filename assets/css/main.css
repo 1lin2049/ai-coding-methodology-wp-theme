@@ -1629,10 +1629,39 @@ main > .section:first-child,
 .comment-list > li {
   margin-bottom: var(--space-6);
 }
+
+/* ── 嵌套回复 · 树形导轨 ──
+   每级固定 24px 缩进（不再随头像宽度累计 44px），
+   左侧 2px 导轨 + 支线 + 分支节点，深层回复不挤压正文、层级清晰可见 */
 .comment-list .children {
   list-style: none;
   padding: 0;
-  margin: var(--space-6) 0 0 calc(var(--comment-avatar-size) + var(--comment-avatar-gap));
+  margin: var(--space-4) 0 0 0;
+  padding-left: var(--space-6);
+  border-left: 2px solid var(--ln);
+  position: relative;
+}
+.comment-list .children::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  opacity: .85;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.comment-list .children > li.comment-item { position: relative; }
+.comment-list .children > li.comment-item::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--space-6) * -1);
+  top: calc(var(--space-4) + var(--comment-avatar-size) / 2 - 1px);
+  width: var(--space-6);
+  height: 2px;
+  background: var(--ln);
 }
 
 /* ── 单条评论 · Ant Design Comment 结构 ── */
@@ -1930,11 +1959,14 @@ main > .section:first-child,
   .comment-list > li { margin-bottom: var(--space-4); }
   .comment-content { font-size: 14px; line-height: 1.7; }
 
-  /* 嵌套回复 · 左缩进配合虚线导轨，避免深嵌套挤压 */
+  /* 嵌套回复 · 移动端缩半级（12px），导轨支线同步收紧 */
   .comment-list .children {
-    margin-left: var(--space-4);
     padding-left: var(--space-3);
-    border-left: 2px dashed var(--ln);
+  }
+  .comment-list .children > li.comment-item::before {
+    left: calc(var(--space-3) * -1);
+    width: var(--space-3);
+    top: calc(var(--space-3) + var(--comment-avatar-size) / 2 - 1px);
   }
 
   .comment-form { grid-template-columns: 1fr; gap: var(--space-3); }

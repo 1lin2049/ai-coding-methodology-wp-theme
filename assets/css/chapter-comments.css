@@ -41,10 +41,36 @@
 .r-single-chapter .comment-list > li {
   margin-bottom: 24px;
 }
+/* ── 嵌套回复 · 树形导轨（与主站一致）── */
 .r-single-chapter .comment-list .children {
   list-style: none;
   padding: 0;
-  margin: 24px 0 0 32px;
+  margin: 16px 0 0 0;
+  padding-left: 24px;
+  border-left: 2px solid var(--ln);
+  position: relative;
+}
+.r-single-chapter .comment-list .children::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  opacity: .85;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.r-single-chapter .comment-list .children > li.comment-item { position: relative; }
+.r-single-chapter .comment-list .children > li.comment-item::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 36px;
+  width: 24px;
+  height: 2px;
+  background: var(--ln);
 }
 
 /* ── 单条评论 ── */
@@ -323,6 +349,15 @@
   .r-single-chapter .comment-body .avatar {
     position: static;
     margin-bottom: 12px;
+  }
+  /* 嵌套回复 · 移动端缩半级（12px），导轨支线同步收紧 */
+  .r-single-chapter .comment-list .children {
+    padding-left: 12px;
+  }
+  .r-single-chapter .comment-list .children > li.comment-item::before {
+    left: -12px;
+    width: 12px;
+    top: 20px;
   }
   /* iOS 聚焦字号 ≥16px，防止自动缩放 */
   .r-single-chapter .comment-form input[type="text"],
