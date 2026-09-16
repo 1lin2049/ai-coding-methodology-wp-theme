@@ -41,6 +41,10 @@
 .r-single-chapter .comment-list > li {
   margin-bottom: 20px;
 }
+/* 线程内回复 · 提前拉开，避免粘连 */
+.r-single-chapter .comment-list .children > li {
+  margin-bottom: 12px;
+}
 /* ── 嵌套回复 · 纯缩进（Ant Design Comment 子列表）── */
 .r-single-chapter .comment-list .children {
   list-style: none;

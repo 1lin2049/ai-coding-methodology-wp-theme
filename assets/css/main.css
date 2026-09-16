@@ -1627,17 +1627,15 @@ main > .section:first-child,
 
 /* ── 列表 ──
    Ant Design List：行 hover 微底，无分隔线堆叠，
-   层级靠空间与留白；顶层评论间距 8px，线程内 4px */
+   层级靠空间与留白；顶层评论与线程内回复统一 8px 间距 */
 .comment-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-.comment-list > li {
+.comment-list > li,
+.comment-list .children > li {
   margin-bottom: var(--space-2);
-}
-.comment-list li.comment-item + li.comment-item {
-  margin-top: var(--space-1);
 }
 
 /* ── 嵌套回复 · 纯缩进（Ant Design Comment 子列表）
@@ -1953,8 +1951,8 @@ main > .section:first-child,
     --comment-avatar-gap: 10px;
   }
   .comment-body { padding: var(--space-3); }
-  .comment-list > li { margin-bottom: var(--space-2); }
-  .comment-list li.comment-item + li.comment-item { margin-top: var(--space-1); }
+  .comment-list > li,
+  .comment-list .children > li { margin-bottom: var(--space-2); }
   .comment-content { font-size: 14px; line-height: 1.7; }
 
   /* 嵌套回复 · 移动端缩一级即可，视觉更松 */
