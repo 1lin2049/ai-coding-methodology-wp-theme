@@ -532,27 +532,6 @@ body.layout-custom.r-single-chapter .r-article-wrap {
 .r-article pre code {
   background: none; padding: 0; color: inherit; font-size: inherit;
 }
-.r-article table {
-  width: 100%; border-collapse: collapse;
-  margin: var(--space-8) 0; font-size: 14.5px;
-  border: 1px solid var(--ln-strong);
-  border-radius: var(--seed-radius);
-  overflow: hidden;
-}
-.r-article th, .r-article td {
-  padding: var(--space-3) var(--space-4); text-align: left;
-  border-bottom: 1px solid var(--ln);
-}
-.r-article th {
-  font-family: var(--mono);
-  font-size: 11px; font-weight: 700;
-  color: var(--tx-3);
-  letter-spacing: .12em;
-  background: var(--surface);
-  text-transform: uppercase;
-}
-.r-article td { color: var(--tx-2); }
-.r-article tr:last-child td { border-bottom: none; }
 .r-article img { max-width: 100%; border-radius: var(--seed-radius); margin: var(--space-8) 0; }
 
 /* 防溢出 */
