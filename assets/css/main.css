@@ -1630,38 +1630,77 @@ main > .section:first-child,
   margin-bottom: var(--space-6);
 }
 
-/* ── 嵌套回复 · 树形导轨 ──
-   每级固定 24px 缩进（不再随头像宽度累计 44px），
-   左侧 2px 导轨 + 支线 + 分支节点，深层回复不挤压正文、层级清晰可见 */
+/* ── 嵌套回复 · 分级制树形导轨 ──
+   深层级“混乱”的根治：轨迹分级，权重逐级递减
+   ① 绿色分支节点只出现在线程根（顶层评论的回复起点），
+      之后各层不再重复圆点；
+   ② 线程根用 3px 加粗导轨锚定“这整串都属于顶层评论”，
+      二级导轨 2px 灰线、三级及以上收细为 1px 弱线；
+   ③ 缩进封顶：24 → 16 → 12px，五层后不再向右漂移，
+      与顶层评论的视觉距离被拉回，间距也随深逐级收紧
+      （16 → 12 → 8px）；
+   ④ 三级以上的正文微微减重（tx-3），层级靠“弱化”识别。
+   ⑤ 整条评论行 hover 高亮，深线程中可逐条追踪归属。 */
 .comment-list .children {
   list-style: none;
   padding: 0;
   margin: var(--space-4) 0 0 0;
   padding-left: var(--space-6);
-  border-left: 2px solid var(--ln);
   position: relative;
 }
-.comment-list .children::before {
+.comment-list > li > .children {
+  border-left: 3px solid var(--ln-strong);
+}
+.comment-list > li > .children::before {
   content: "";
   position: absolute;
-  top: -4px;
-  left: -2px;
-  width: 5px;
-  height: 5px;
+  top: -7px;
+  left: -5px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--green);
-  opacity: .85;
   box-shadow: 0 0 0 2px var(--surface);
 }
+.comment-list .children .children {
+  margin-top: var(--space-3);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--ln);
+}
+.comment-list .children .children .children {
+  margin-top: var(--space-2);
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--ln);
+}
+.comment-list .children .children .children .comment-content {
+  color: var(--tx-3);
+}
+
+/* 支线 · 从所在级导轨横接该条评论，长度随各级缩进 */
 .comment-list .children > li.comment-item { position: relative; }
-.comment-list .children > li.comment-item::before {
+.comment-list > li > .children > li.comment-item::before,
+.comment-list .children .children > li.comment-item::before,
+.comment-list .children .children .children > li.comment-item::before,
+.comment-list .children .children .children .children > li.comment-item::before {
   content: "";
   position: absolute;
-  left: calc(var(--space-6) * -1);
   top: calc(var(--space-4) + var(--comment-avatar-size) / 2 - 1px);
-  width: var(--space-6);
   height: 2px;
   background: var(--ln);
+}
+.comment-list > li > .children > li.comment-item::before {
+  left: calc(var(--space-6) * -1);
+  width: var(--space-6);
+}
+.comment-list .children .children > li.comment-item::before {
+  left: calc(var(--space-4) * -1);
+  width: var(--space-4);
+}
+.comment-list .children .children .children > li.comment-item::before,
+.comment-list .children .children .children .children > li.comment-item::before {
+  left: calc(var(--space-3) * -1);
+  width: var(--space-3);
+  height: 1px;
 }
 
 /* ── 单条评论 · Ant Design Comment 结构 ── */
@@ -1671,7 +1710,10 @@ main > .section:first-child,
   gap: var(--comment-avatar-gap);
   padding: var(--comment-padding);
   border-bottom: var(--comment-border);
+  border-radius: var(--seed-radius-sm);
+  transition: background var(--duration-normal) var(--ease-natural);
 }
+.comment-body:hover { background: var(--surface-hover); }
 
 /* 头像 · 固定 32px 圆形，对齐 Ant Design Avatar */
 .comment-author img,
@@ -1959,14 +2001,21 @@ main > .section:first-child,
   .comment-list > li { margin-bottom: var(--space-4); }
   .comment-content { font-size: 14px; line-height: 1.7; }
 
-  /* 嵌套回复 · 移动端缩半级（12px），导轨支线同步收紧 */
-  .comment-list .children {
-    padding-left: var(--space-3);
-  }
+  /* 嵌套回复 · 移动端缩进封顶 12/8px，导轨支线同步收紧 */
+  .comment-list .children { padding-left: var(--space-3); }
+  .comment-list .children .children { padding-left: var(--space-2); }
   .comment-list .children > li.comment-item::before {
+    top: calc(var(--space-3) + var(--comment-avatar-size) / 2 - 1px);
+  }
+  .comment-list > li > .children > li.comment-item::before {
     left: calc(var(--space-3) * -1);
     width: var(--space-3);
-    top: calc(var(--space-3) + var(--comment-avatar-size) / 2 - 1px);
+  }
+  .comment-list .children .children > li.comment-item::before,
+  .comment-list .children .children .children > li.comment-item::before,
+  .comment-list .children .children .children .children > li.comment-item::before {
+    left: calc(var(--space-2) * -1);
+    width: var(--space-2);
   }
 
   .comment-form { grid-template-columns: 1fr; gap: var(--space-3); }

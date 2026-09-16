@@ -41,36 +41,63 @@
 .r-single-chapter .comment-list > li {
   margin-bottom: 24px;
 }
-/* ── 嵌套回复 · 树形导轨（与主站一致）── */
+/* ── 嵌套回复 · 分级制树形导轨（与主站一致）
+   线程根 3px 加粗导轨 + 唯一绿点；二级 2px 灰线；
+   三级及以上 1px 弱线；缩进 24→16→12px 封顶 */
 .r-single-chapter .comment-list .children {
   list-style: none;
   padding: 0;
   margin: 16px 0 0 0;
   padding-left: 24px;
-  border-left: 2px solid var(--ln);
   position: relative;
 }
-.r-single-chapter .comment-list .children::before {
+.r-single-chapter .comment-list > li > .children {
+  border-left: 3px solid var(--ln-strong);
+}
+.r-single-chapter .comment-list > li > .children::before {
   content: "";
   position: absolute;
-  top: -4px;
-  left: -2px;
-  width: 5px;
-  height: 5px;
+  top: -7px;
+  left: -5px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--green);
-  opacity: .85;
   box-shadow: 0 0 0 2px var(--surface);
 }
+.r-single-chapter .comment-list .children .children {
+  margin-top: 12px;
+  padding-left: 16px;
+  border-left: 2px solid var(--ln);
+}
+.r-single-chapter .comment-list .children .children .children {
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 1px solid var(--ln);
+}
+
+/* 支线 · 从所在级导轨横接该条评论 */
 .r-single-chapter .comment-list .children > li.comment-item { position: relative; }
-.r-single-chapter .comment-list .children > li.comment-item::before {
+.r-single-chapter .comment-list > li > .children > li.comment-item::before,
+.r-single-chapter .comment-list .children .children > li.comment-item::before,
+.r-single-chapter .comment-list .children .children .children > li.comment-item::before,
+.r-single-chapter .comment-list .children .children .children .children > li.comment-item::before {
   content: "";
   position: absolute;
-  left: -24px;
   top: 36px;
-  width: 24px;
   height: 2px;
   background: var(--ln);
+}
+.r-single-chapter .comment-list > li > .children > li.comment-item::before,
+.r-single-chapter .comment-list .children .children > li.comment-item::before {
+  left: -24px;
+  width: 24px;
+}
+.r-single-chapter .comment-list .children .children .children > li.comment-item::before,
+.r-single-chapter .comment-list .children .children .children .children > li.comment-item::before {
+  left: -12px;
+  width: 12px;
+  height: 1px;
 }
 
 /* ── 单条评论 ── */
@@ -350,13 +377,23 @@
     position: static;
     margin-bottom: 12px;
   }
-  /* 嵌套回复 · 移动端缩半级（12px），导轨支线同步收紧 */
+  /* 嵌套回复 · 移动端缩进封顶 12/8px，导轨支线同步收紧 */
   .r-single-chapter .comment-list .children {
     padding-left: 12px;
   }
-  .r-single-chapter .comment-list .children > li.comment-item::before {
+  .r-single-chapter .comment-list .children .children {
+    padding-left: 8px;
+  }
+  .r-single-chapter .comment-list > li > .children > li.comment-item::before,
+  .r-single-chapter .comment-list .children .children > li.comment-item::before {
     left: -12px;
     width: 12px;
+    top: 20px;
+  }
+  .r-single-chapter .comment-list .children .children .children > li.comment-item::before,
+  .r-single-chapter .comment-list .children .children .children .children > li.comment-item::before {
+    left: -8px;
+    width: 8px;
     top: 20px;
   }
   /* iOS 聚焦字号 ≥16px，防止自动缩放 */
