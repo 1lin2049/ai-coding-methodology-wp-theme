@@ -264,16 +264,17 @@ function ai_import_chapters_from_file( $file_path ) {
             'post_type'    => 'chapter',
             'post_title'   => $title,
             'post_content' => $content,
-            'post_status'  => 'publish',
             'menu_order'   => $order,
         ];
         if ( $slug !== '' ) $post_data['post_name'] = $slug;
 
         if ( $existing ) {
             $post_data['ID'] = $existing->ID;
+            /* 只更新内容，保留现有发布状态（草稿/私密不会因导入被公开） */
             $post_id = wp_update_post( $post_data, true );
             if ( ! is_wp_error( $post_id ) ) $result['updated']++;
         } else {
+            $post_data['post_status'] = 'publish';
             $post_id = wp_insert_post( $post_data, true );
             if ( ! is_wp_error( $post_id ) ) $result['created']++;
         }

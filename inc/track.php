@@ -444,6 +444,7 @@ function ai_add_stats_columns( $columns ) {
 
 add_action( 'manage_posts_custom_column', 'ai_render_stats_column', 10, 2 );
 add_action( 'manage_pages_custom_column', 'ai_render_stats_column', 10, 2 );
+add_action( 'manage_chapter_posts_custom_column', 'ai_render_stats_column', 10, 2 );
 
 function ai_render_stats_column( $column, $post_id ) {
     switch ( $column ) {

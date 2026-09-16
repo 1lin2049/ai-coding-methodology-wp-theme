@@ -77,8 +77,8 @@ function ai_stats_check_page() {
       <h2 style="margin-top:32px">2. 当前状态</h2>
       <ul style="font-size:13px">
         <li>DB 版本：<code><?php echo esc_html( get_option( 'ai_stats_db_version', '未初始化' ) ); ?></code>（目标 <?php echo esc_html( AI_STATS_DB_VERSION ); ?>）</li>
-        <li>旧数据迁移：<?php echo get_option( 'ai_stats_migrated_v2' ) ? '已完成' : '未执行'; ?></li>
-        <li>Log 回填：<?php echo get_option( 'ai_stats_backfilled_v2' ) ? '已完成' : '未执行'; ?></li>
+        <li>旧数据迁移：<?php echo get_option( 'ai_stats_migrated_v3' ) ? '已完成' : '未执行'; ?></li>
+        <li>Log 回填：<?php echo get_option( 'ai_stats_backfilled_v3' ) ? '已完成' : '未执行'; ?></li>
         <li>下次清理：<?php echo esc_html( wp_next_scheduled( 'ai_daily_cleanup' ) ? date_i18n( 'Y-m-d H:i', wp_next_scheduled( 'ai_daily_cleanup' ) ) : '未计划' ); ?></li>
       </ul>
 
@@ -163,7 +163,7 @@ add_action( 'admin_post_ai_stats_action', function () {
             break;
 
         case 'backfill':
-            delete_option( 'ai_stats_backfilled_v2' );
+            delete_option( 'ai_stats_backfilled_v3' );
             ai_backfill_from_log();
             break;
 

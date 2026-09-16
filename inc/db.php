@@ -29,6 +29,9 @@ function ai_ensure_stats_db() {
     if ( $ran ) return;
     $ran = true;
 
+    /* 快路径：版本已达标则跳过表检查，避免每个前台请求跑 3 次 SHOW TABLES */
+    if ( get_option( 'ai_stats_db_version' ) === AI_STATS_DB_VERSION ) return;
+
     $missing = [];
     foreach ( [ 'post_stats', 'post_daily', 'track_log' ] as $t ) {
         if ( ! ai_stats_table_exists( $t ) ) $missing[] = $t;

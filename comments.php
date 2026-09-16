@@ -30,7 +30,9 @@ if ( post_password_required() ) return;
     ?>
   <?php endif; ?>
 
-  <?php if ( ! is_user_logged_in() ) : ?>
+  <?php if ( ! is_user_logged_in()
+          && ai_comment_policy_login_required()
+          && ! ai_comment_guest_allowed( get_the_ID() ) ) : ?>
 
     <div class="comments-locked">
       <div class="comments-locked-icon">

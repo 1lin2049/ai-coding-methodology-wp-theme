@@ -51,7 +51,7 @@
     </div>
 
     <div class="foot-bot">
-      <span>© <?php echo esc_html( date( 'Y' ) ); ?> 李咏燊</span>
+      <span>© <?php echo esc_html( wp_date( 'Y' ) ); ?> 李咏燊</span>
       <span class="foot-sep">·</span>
       <span class="foot-quote">代码是结果，约束才是生产系统</span>
     </div>

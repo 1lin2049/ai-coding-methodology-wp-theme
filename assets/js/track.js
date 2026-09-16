@@ -104,38 +104,43 @@
 
   checkProgress();
 
-  /* 4. 停留时长（15 秒批量上报） */
+  /* 4. 停留时长（15 秒批量上报；单次封顶 300s，避免后端拒绝 / 长会话拆分） */
+  const TIME_MAX = 300;
+
   let accumulated = 0;
   let lastTick    = Date.now();
   let visible     = !document.hidden;
 
-  function flushTime() {
-    if (!visible) return;
+  function recordTime() {
     const now = Date.now();
     const delta = Math.round((now - lastTick) / 1000);
     lastTick = now;
-    if (delta <= 0) return;
-    accumulated += delta;
-    if (accumulated >= 15) {
-      send('time', String(accumulated));
-      accumulated = 0;
-    }
+    if (delta > 0) accumulated += delta;
+    return delta;
   }
 
-  setInterval(flushTime, 5000);
+  function sendTime(force) {
+    if (accumulated < 1) return;
+    if (force === 'hide') {
+      /* 切后台：仅当达到批量门槛才上报，避免碎片 */
+      if (accumulated < 15) return;
+    }
+    send('time', String(Math.min(accumulated, TIME_MAX)));
+    accumulated = 0;
+  }
+
+  setInterval(function () {
+    if (!visible) return;
+    recordTime();
+    if (accumulated >= 15) sendTime();
+  }, 5000);
 
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) {
+      if (!visible) return;
       visible = false;
-      const now = Date.now();
-      const delta = Math.round((now - lastTick) / 1000);
-      if (delta > 0) {
-        accumulated += delta;
-        if (accumulated > 0) {
-          send('time', String(accumulated));
-          accumulated = 0;
-        }
-      }
+      recordTime();
+      sendTime('hide');
     } else {
       visible = true;
       lastTick = Date.now();
@@ -143,12 +148,8 @@
   });
 
   window.addEventListener('pagehide', function () {
-    const now = Date.now();
-    const delta = Math.round((now - lastTick) / 1000);
-    if (delta > 0) accumulated += delta;
-    if (accumulated > 0) {
-      send('time', String(accumulated));
-      accumulated = 0;
-    }
+    if (visible) recordTime();
+    if (accumulated >= 3) send('time', String(Math.min(accumulated, TIME_MAX)));
+    accumulated = 0;
   });
 })();

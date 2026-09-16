@@ -1,29 +1,34 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$layout = ai_get_layout();
-if ( ! ai_layout_has_sidebar( $layout ) ) return;
+/* ═══════════════════════════════════════════════
+   侧栏 Widget 区注册
+   sidebar.php 会按布局选择 sidebar-left / sidebar-right，
+   sidebar-main 为兼容旧模板保留（若仍有模板直接取用）。
+   ═══════════════════════════════════════════════ */
+add_action( 'widgets_init', function () {
+    $args = [
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="widget-title">',
+        'after_title'   => '</h4>',
+    ];
 
-$sidebar_id = ai_layout_sidebar_id( $layout );
-if ( ! is_active_sidebar( $sidebar_id ) ) {
-    // 空位占位（开发时看得见）
-    if ( current_user_can( 'manage_options' ) ) {
-        ?>
-        <aside class="sidebar sidebar-empty" role="complementary">
-          <div class="widget">
-            <h4 class="widget-title"><?php echo esc_html( $sidebar_id === 'sidebar-left' ? '左侧栏' : '右侧栏' ); ?></h4>
-            <p style="font-size:13px;color:var(--tx-3);margin:0">
-              尚未添加小工具。前往 <a href="<?php echo esc_url( admin_url( 'widgets.php' ) ); ?>">外观 → 小工具</a> 添加。
-            </p>
-          </div>
-        </aside>
-        <?php
-    }
-    return;
-}
-?>
-<aside class="sidebar" role="complementary">
-  <div class="sidebar-inner">
-    <?php dynamic_sidebar( $sidebar_id ); ?>
-  </div>
-</aside>
+    register_sidebar( array_merge( $args, [
+        'name'        => '侧栏 · 左',
+        'id'          => 'sidebar-left',
+        'description' => '左侧栏布局使用',
+    ] ) );
+
+    register_sidebar( array_merge( $args, [
+        'name'        => '侧栏 · 右',
+        'id'          => 'sidebar-right',
+        'description' => '右侧栏布局使用',
+    ] ) );
+
+    register_sidebar( array_merge( $args, [
+        'name'        => '侧栏 · 主',
+        'id'          => 'sidebar-main',
+        'description' => '兼容旧模板，实际请使用"侧栏 · 左 / 右"',
+    ] ) );
+} );

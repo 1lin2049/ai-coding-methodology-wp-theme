@@ -70,7 +70,7 @@ $buy  = home_url( '/#pricing' );
   </div>
 </header>
 
-<main class="r-main">
+<main id="top" class="r-main">
   <div class="r-wrap">
 
     <div class="r-head">

@@ -1,6 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/* 由本主题统一输出 canonical，移除 WP 核心的 rel_canonical，避免重复 */
+remove_action( 'wp_head', 'rel_canonical' );
+
 /**
  * SEO · 完整版
  * meta box 放主编辑区下方（normal）

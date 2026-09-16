@@ -72,7 +72,7 @@ while ( have_posts() ) : the_post();
 
   <?php if ( $has_sidebar && $sidebar_left ) get_sidebar(); ?>
 
-  <div class="r-main-col">
+  <main id="top" class="r-main-col">
     <article class="r-article-wrap" data-print-src="<?php echo esc_attr( home_url( '/' ) ); ?>">
       <div class="r-article-head">
         <div class="r-article-ch">CHAPTER <?php echo esc_html( $number ); ?></div>
@@ -117,7 +117,7 @@ while ( have_posts() ) : the_post();
         </section>
       <?php endif; ?>
     </article>
-  </div>
+  </main>
 
   <?php if ( $has_sidebar && ! $sidebar_left ) get_sidebar(); ?>
 

@@ -8,6 +8,9 @@ add_action( 'init', function () {
 } );
 
 add_action( 'init', function () {
+    /* 仅后台（编辑器）需要 pattern，前台请求不再渲染 whole-parts 产生开销 */
+    if ( ! is_admin() ) return;
+
     $dir = AI_CODING_DIR . '/patterns';
     if ( ! is_dir( $dir ) ) return;
 
