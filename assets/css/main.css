@@ -2345,6 +2345,48 @@ body.layout-sidebar-right .layout-shell {
 }
 .sidebar .widget-foot > a:hover .widget-foot-title { color: var(--tx-1); }
 
+/* 目录卡 · 终端横条卡头（借鉴 LightSNS had_bg_color 高强调头 / B2 flex 榜头） */
+.sidebar .widget-chapters > .widget-head {
+  min-height: var(--space-10);
+  padding: 0 var(--widget-h-pad);
+  border-bottom: 0;
+  background: var(--green);
+}
+.sidebar .widget-chapters > .widget-head .widget-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .08em;
+  color: #000;
+}
+.sidebar .widget-chapters > .widget-head .widget-title::before {
+  width: 8px;
+  height: 8px;
+  margin-right: 9px;
+  background: #000;
+  border-radius: 0;
+}
+.sidebar .widget-chapters > .widget-head .widget-head-meta {
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: color-mix(in srgb, #000 64%, transparent);
+}
+.sidebar .widget-chapters > .widget-head .widget-head-meta::before { content: "["; margin-right: 2px; }
+.sidebar .widget-chapters > .widget-head .widget-head-meta::after  { content: "]"; margin-left: 2px; }
+
+/* 卡脚 · 更多整行链接（紧随 1fr 1fr 双格之后，整列横跨） */
+.sidebar .widget-foot > .widget-foot-more {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--space-2);
+  border-top: 1px solid var(--ln);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: var(--tx-3);
+}
+.sidebar .widget-foot > .widget-foot-more:hover { color: var(--green); }
+
 /* ── 文本内容 ── */
 .sidebar .widget p {
   font-size: 13.5px;

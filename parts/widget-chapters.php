@@ -65,5 +65,8 @@ $buy      = home_url( '/#pricing' );
 				<span class="widget-foot-title">获取完整内容</span>
 			</a>
 		<?php endif; ?>
+		<?php if ( count( $chapters ) > 20 ) : ?>
+			<a class="widget-foot-more" href="<?php echo esc_url( $toc ); ?>">查看全书目录 →</a>
+		<?php endif; ?>
 	</div>
 </div>
